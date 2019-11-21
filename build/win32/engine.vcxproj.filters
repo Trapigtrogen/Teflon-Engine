@@ -75,6 +75,9 @@
     <ClInclude Include="stb_image.h">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\core\InputManager.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\ogl\OGLGraphicsSystem.cpp">
@@ -103,6 +106,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\android\AndroidWindow.cpp">
       <Filter>Source Files\android</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\InputManager.cpp">
+      <Filter>Source Files\core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -17,6 +17,7 @@ int main(int argc, char* argv[]) {
 	//fclose(stdout);
 	int w = 640;
 	int h = 480;
+	wchar_t buffer[150];
 	LOGI("Application create window (%d, %d)\n", w, h );
 	//fopen(stdout);
 
@@ -35,6 +36,9 @@ int main(int argc, char* argv[]) {
 		float deltaTime = frameTimer.getTime();
 		frameTimer.reset();
 		application->update(deltaTime);
+
+		swprintf(buffer, 150, L"FPS: %d", (int)(1.0f / deltaTime));
+		SetWindowText(window->getNativeWindow(), (LPCTSTR)buffer);
 	}
 
 	LOGI("Application done!\n");

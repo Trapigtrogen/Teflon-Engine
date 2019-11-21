@@ -19,12 +19,24 @@ namespace engine
 		
 		// Create Shader object
 		quadObject = graphics->createShaderProgram(vShader, fShader);
+
+		// CREATE TEXTURE FROM IMAGE FILE
+		int width, height, bits;
+		quadTexture = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/texture.jpg", width, height, bits));
+		quadTexture2 = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/clicktexture.png", width, height, bits));
 	}
 
 	TestApplication::~TestApplication() {}
 
 	bool TestApplication::update(float deltaTime) {
 		m_totalTime += deltaTime;
+
+		// INPUT
+		posX = getWindow()->input->getMousePosX();
+		posY = getWindow()->input->getMousePosY();
+		isClicked = getWindow()->input->getButton();
+		//std::cout << posX << " - " << posY << " - " << isClicked << "\n";
+
 		return true;
 	}
 
@@ -32,32 +44,9 @@ namespace engine
 		(void)window;	
 		float val = fabsf(sinf(2.0f*m_totalTime));
 		float val2 = fabsf(sinf(2.0f*m_totalTime/2));
-		float offset = 0.2f;
 
 		// Clear screen with pulsating colour
 		graphics->clearScreen(val/4, val, val/1.4, true);
-			   
-		float size = 1.0f;
-		float dx = -0.5f;
-		float dy = -0.5f;
-		float depth = 0.0f;
-		GLfloat quad[] = { 
-			dx + 0.0f,  dy + size, depth,
-			dx + 0.0f, dy + 0.0f, depth,
-			dx + size, dy + 0.0f, depth,
-
-			dx + size, dy + size, depth,
-			dx + size, dy + 0.0f, depth,
-			dx + 0.0f, dy + size, depth
-		};
-		
-		GLfloat quad2[] = { // quad from four corners only
-			dx + 0.0f, dy + size, depth,
-			dx + 0.0f, dy + 0.0f, depth,
-			dx + size, dy + 0.0f, depth,
-			dx + size, dy + size, depth
-
-		};
 
 		GLfloat quadTexCoords[] = {
 			0,0,
@@ -67,14 +56,39 @@ namespace engine
 			1,1,
 			0,0
 		};
+			   
+		// Quad information
+		float size = 1.0f;
+		float dx = -0.5f; //starting corner X
+		float dy = -0.5f; //starting corner Y
+		float depth = 0.0f; // Z-index
 
-		int width, height, bits;
-		GLubyte* texture = graphics->loadImage("textures/texture.jpg", width, height, bits);
+		// Draw quad shape made from two triangles using OGL's own triangle drawing
+		GLfloat quad[] = { 
+			dx + 0.0f,  dy + size, depth,
+			dx + 0.0f, dy + 0.0f, depth,
+			dx + size, dy + 0.0f, depth,
 
-		OGLTexture2D quadTexture(width, height, bits, texture);
-
+			dx + size, dy + size, depth,
+			dx + size, dy + 0.0f, depth,
+			dx + 0.0f, dy + size, depth
+		};
 		//graphics->drawTriangles(quadObject, &quadTexture, quad, quadTexCoords, 6);
-		graphics->drawRectangle(quadObject, &quadTexture, quad2, quadTexCoords, 6);
+		
+		// Draw quad from four corners only using self-made rectangle function to convert to two triangles
+		GLfloat quad2[] = { 
+			dx + 0.0f, dy + size, depth,
+			dx + 0.0f, dy + 0.0f, depth,
+			dx + size, dy + 0.0f, depth,
+			dx + size, dy + size, depth
+		};
+
+		if (!isClicked) {
+			graphics->drawRectangle(quadObject, quadTexture, quad2, quadTexCoords, 6);
+		}
+		else {
+			graphics->drawRectangle(quadObject, quadTexture2, quad2, quadTexCoords, 6);
+		}
 
 		// Swap buffers
 		graphics->swapBuffers();

@@ -34,6 +34,11 @@ namespace engine
 
 	private:
 		float m_totalTime;
+		int posX;
+		int posY;
+		int isClicked;
+		OGLTexture2D* quadTexture;
+		OGLTexture2D* quadTexture2;
 	};
 
 }

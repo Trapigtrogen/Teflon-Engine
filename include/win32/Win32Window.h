@@ -10,12 +10,11 @@
 #include <graphics/Window.h>
 #include <windows.h>
 #include <string>
+#include <vector>
 
 namespace engine
 {
-	class Win32Window :
-		public Window
-	{
+	class Win32Window :	public Window {
 	public:
 		Win32Window(int width, int height, const std::wstring& title);
 		~Win32Window();
@@ -30,7 +29,6 @@ namespace engine
 		HWND m_hwnd;
 		bool m_active;
 	};
-
 }
 
 #endif

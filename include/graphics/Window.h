@@ -9,6 +9,7 @@
 
 #include <core/Object.h>
 #include <EGL/eglplatform.h> // TODO: Make to cross platform
+#include <core/InputManager.h>
 
 namespace engine
 {
@@ -34,6 +35,7 @@ namespace engine
 		GraphicsApplication* getApplication() const;
 		GraphicsSystem* getGraphics() const;
 
+		InputManager* input;
 
 	private:
 		int m_width;

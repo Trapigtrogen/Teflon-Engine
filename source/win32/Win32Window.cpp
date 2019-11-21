@@ -10,16 +10,13 @@
 
 namespace engine
 {
-	LRESULT WINAPI WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-	{
+	LRESULT WINAPI WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		LRESULT  lRet = 1;
-		switch (uMsg)
-		{
+		switch (uMsg) {
 		case WM_CREATE:
 			break;
 
-		case WM_PAINT:
-		{
+		case WM_PAINT: {
 			Win32Window *window = (Win32Window*)(LONG_PTR)GetWindowLongPtr(hWnd, GWL_USERDATA);			
 			// Call application render and pass pointer to Graphics-object.
  			window->getApplication()->render(window, window->getGraphics());
@@ -31,11 +28,31 @@ namespace engine
 			PostQuitMessage(0);
 			break;
 
-		case WM_CHAR:
-		{
-			POINT      point;
+		case WM_CHAR: {
+			POINT point;
 //			Win32Window *esContext = (Win32Window*)(LONG_PTR)GetWindowLongPtr(hWnd, GWL_USERDATA);
 			GetCursorPos(&point);
+		}
+		break;
+
+		case WM_MOUSEMOVE: {
+			Win32Window *window = (Win32Window*)(LONG_PTR)GetWindowLongPtr(hWnd, GWL_USERDATA);
+			POINT point;
+			GetCursorPos(&point);
+			window->input->setMousePosX(point.x);
+			window->input->setMousePosY(point.y);
+		}
+		break;
+
+		case WM_LBUTTONDOWN: {
+			Win32Window *window = (Win32Window*)(LONG_PTR)GetWindowLongPtr(hWnd, GWL_USERDATA);
+			window->input->setButton(1);
+		}
+		break;
+
+		case WM_LBUTTONUP: {
+			Win32Window *window = (Win32Window*)(LONG_PTR)GetWindowLongPtr(hWnd, GWL_USERDATA);
+			window->input->setButton(0);
 		}
 		break;
 
@@ -47,12 +64,7 @@ namespace engine
 		return lRet;
 	}
 
-
-
-	Win32Window::Win32Window(int width, int height, const std::wstring& title)
-		: Window()
-		, m_hwnd(NULL)
-		, m_active(false) // Assume not yet active
+	Win32Window::Win32Window(int width, int height, const std::wstring& title) : Window(), m_hwnd(NULL), m_active(false) // Assume not yet active
 	{
 		setSize(width, height); // Set size to base class
 
@@ -111,20 +123,16 @@ namespace engine
 	}
 
 
-	Win32Window::~Win32Window()
-	{
-	}
+	Win32Window::~Win32Window()	{}
 
 
 	// Returns native window handle
-	EGLNativeWindowType Win32Window::getNativeWindow() const
-	{
+	EGLNativeWindowType Win32Window::getNativeWindow() const {
 		return m_hwnd;
 	}
 
 
-	bool Win32Window::updateMessages()
-	{
+	bool Win32Window::updateMessages() {
 		MSG msg = { 0 };
 		int gotMsg = (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) != 0);
 		if (gotMsg)

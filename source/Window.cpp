@@ -9,7 +9,9 @@
 namespace engine
 {
 
-	Window::Window() : Object(), m_app(0), m_graphics(0){}
+	Window::Window() : Object(), m_app(0), m_graphics(0){
+		input = new InputManager();
+	}
 	
 	Window::~Window(){}
 	

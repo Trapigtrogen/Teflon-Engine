@@ -77,6 +77,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\android\AndroidWindow.h" />
+    <ClInclude Include="..\..\include\core\InputManager.h" />
     <ClInclude Include="..\..\include\core\Object.h" />
     <ClInclude Include="..\..\include\core\Ref.h" />
     <ClInclude Include="..\..\include\graphics\GraphicsApplication.h" />
@@ -94,6 +95,7 @@
     <ClCompile Include="..\..\source\GraphicsApplication.cpp" />
     <ClCompile Include="..\..\source\ElapsedTimer.cpp" />
     <ClCompile Include="..\..\source\GraphicsSystem.cpp" />
+    <ClCompile Include="..\..\source\InputManager.cpp" />
     <ClCompile Include="..\..\source\Object.cpp" />
     <ClCompile Include="..\..\source\OGL\OGL.cpp" />
     <ClCompile Include="..\..\source\ogl\OGLGraphicsSystem.cpp" />
