@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\OGL">
+      <UniqueIdentifier>{9c50848e-8ff7-4d8d-97ee-0bb862a90dc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\win32">
+      <UniqueIdentifier>{5f5c4fcc-94df-457a-89be-3c9efa7dee03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\win32">
+      <UniqueIdentifier>{efe00343-a7ee-4e9e-a10b-4d3cc4a9fcdd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\OGL">
+      <UniqueIdentifier>{d3a6bb4a-c2be-4f08-8d95-fd54eeb278d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\graphics">
+      <UniqueIdentifier>{8c6c6039-d308-4847-af92-feaedf0bb979}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core">
+      <UniqueIdentifier>{bd0130ab-f204-4147-aa3e-57490e93cd22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core">
+      <UniqueIdentifier>{563fbd32-338e-4dc9-ae84-ce18c0263201}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics">
+      <UniqueIdentifier>{94627001-e5ba-4e0f-9cb4-cbe2e537b94a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\android">
+      <UniqueIdentifier>{03f32f42-9277-4874-9422-aaaad8b2b669}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\android">
+      <UniqueIdentifier>{460d6632-23e8-43c8-89c0-9faf2fa1b65f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\win32\Win32Window.h">
+      <Filter>Header Files\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\OGL\OGLGraphicsSystem.h">
+      <Filter>Header Files\OGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\OGL\OGL.h">
+      <Filter>Header Files\OGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\graphics\GraphicsSystem.h">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\graphics\Window.h">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\core\Object.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\core\Ref.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\graphics\GraphicsApplication.h">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\android\AndroidWindow.h">
+      <Filter>Header Files\android</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\ogl\OGLGraphicsSystem.cpp">
+      <Filter>Source Files\OGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\win32\Win32Window.cpp">
+      <Filter>Source Files\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\OGL\OGL.cpp">
+      <Filter>Source Files\OGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\ElapsedTimer.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Object.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\GraphicsApplication.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\GraphicsSystem.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Window.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\android\AndroidWindow.cpp">
+      <Filter>Source Files\android</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\include\core\Ref.inl">
+      <Filter>Header Files\core</Filter>
+    </None>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
+  </ItemGroup>
+</Project>

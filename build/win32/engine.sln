@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2013 for Windows Desktop
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "engine", "engine.vcxproj", "{724002E3-E413-4294-BA5C-59B96949E0C6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsTest", "..\..\GraphicsTest\GraphicsTest.vcxproj", "{72CA889A-7817-431F-A9D1-12FFEC3A6742}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{724002E3-E413-4294-BA5C-59B96949E0C6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{724002E3-E413-4294-BA5C-59B96949E0C6}.Debug|Win32.Build.0 = Debug|Win32
+		{724002E3-E413-4294-BA5C-59B96949E0C6}.Release|Win32.ActiveCfg = Release|Win32
+		{724002E3-E413-4294-BA5C-59B96949E0C6}.Release|Win32.Build.0 = Release|Win32
+		{72CA889A-7817-431F-A9D1-12FFEC3A6742}.Debug|Win32.ActiveCfg = Debug|Win32
+		{72CA889A-7817-431F-A9D1-12FFEC3A6742}.Debug|Win32.Build.0 = Debug|Win32
+		{72CA889A-7817-431F-A9D1-12FFEC3A6742}.Release|Win32.ActiveCfg = Release|Win32
+		{72CA889A-7817-431F-A9D1-12FFEC3A6742}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
