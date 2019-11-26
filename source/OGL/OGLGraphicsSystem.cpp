@@ -280,6 +280,20 @@ namespace engine
 		GLubyte* texture = stbi_load(fileName, &width, &height, &bits, 0);
 		return texture;
 	}
+
+	void OGLGraphicsSystem::transform(GLuint object, float m_totalTime, float traX, float traY, float traZ, float rotX, float rotY, float rotZ, float scale) {
+		m_model = glm::translate(glm::mat4(1.0f), glm::vec3(traX, traY, traZ));
+		m_model = glm::rotate(m_model, m_totalTime, glm::vec3(rotX, rotY, rotZ));
+		m_model = glm::scale(m_model, glm::vec3(scale, scale, scale));
+
+		m_view = glm::mat4(1.0f);
+		m_projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f);
+
+		// Set MVP
+		glm::mat4 mvp = m_projection * glm::inverse(m_view) * m_model;
+		GLuint mvpLoc = glGetUniformLocation(object, "MVP");
+		glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
+	}
 	
 
 	void OGLGraphicsSystem::drawTriangles(GLuint shader, Texture2D* texture, float vertices[], float textureCoords[], int numVertices) {

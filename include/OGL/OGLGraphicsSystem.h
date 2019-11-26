@@ -16,6 +16,10 @@
 #include <iostream>
 #include <fstream>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 
 namespace engine
 {
@@ -59,8 +63,9 @@ namespace engine
 		
 		// Load textures from file
 		virtual GLubyte* loadImage(const char* fileName, int &width, int &height, int &bits);
-		
 
+		virtual void transform(GLuint object, float m_totalTime, float traX, float traY, float traZ, float rotX, float rotY, float rotZ, float scale);
+		
 		virtual void swapBuffers();
 
 		virtual GLuint createShaderProgram(const std::string vertexShader, const std::string fragmentShader);
@@ -77,6 +82,10 @@ namespace engine
 		EGLDisplay m_eglDisplay; // Display object
 		EGLContext m_eglContext; // Context object
 		EGLSurface m_eglSurface; // Surface object
+
+		glm::mat4 m_view;
+		glm::mat4 m_projection;
+		glm::mat4 m_model;
 	};
 
 }

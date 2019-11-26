@@ -39,32 +39,15 @@ namespace engine
 		isClicked = getWindow()->input->getButton();
 		//std::cout << posX << " - " << posY << " - " << isClicked << "\n";
 
-
-		// Translation
-		m_model = glm::translate(glm::mat4(1.0f), glm::vec3(300.0f, 300.0f, 0.0f));
-		// Rotation around Oz with 45 degrees
-		m_model = glm::rotate(m_model, m_totalTime, glm::vec3(0.0f, 0.0f, 1.0f));
-		// Scale is 3.0 
-		m_model = glm::scale(m_model, glm::vec3(300.0f, 300.0f, 100.0f));
-
-		m_view = glm::mat4(1.0f);
-		m_projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f);
-
 		return true;
 	}
 
 	void TestApplication::render(Window* window, GraphicsSystem* graphics) {
 		(void)window;	
 		float val = fabsf(sinf(2.0f*m_totalTime));
-		float val2 = fabsf(sinf(2.0f*m_totalTime/2));
 
 		// Clear screen with pulsating colour
 		graphics->clearScreen(val/4, val, val/1.4, true);
-
-		// Set MVP
-		glm::mat4 mvp = m_projection * glm::inverse(m_view) * m_model;
-		GLuint mvpLoc = glGetUniformLocation(quadObject, "MVP");
-		glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
 
 		// Texture coordinates
 		GLfloat quadTexCoords[] = {
@@ -93,13 +76,25 @@ namespace engine
 			dx + 0.0f, dy + size, depth
 		};
 
+		// User friendly quad
+		GLfloat quad2[] = {
+			dx + 0.0f,  dy + size, depth,
+			dx + 0.0, dy + 0.0, depth,
+			dx + size, dy + 0.0f, depth,
+			dx + size, dy + size, depth
+		};
+
+
 		if (!isClicked) {
+			graphics->transform(quadObject, m_totalTime, 200.0f, 200.0f, 0.0f, 0.0f, 0.0f, 1.0f, 200.0f);
 			graphics->drawTriangles(quadObject, quadTexture, quad, quadTexCoords, 6);
 		}
 		else {
+			graphics->transform(quadObject, m_totalTime, 200.0f, 200.0f, 0.0f, 0.0f, 0.0f, 1.0f, 300.0f);
 			graphics->drawTriangles(quadObject, quadTexture2, quad, quadTexCoords, 6);
 		}
-		//graphics->drawTriangles(quadObject2, quadTexture3, quad, quadTexCoords, 6);
+		graphics->transform(quadObject2, m_totalTime, 400.0f, 400.0f, 0.0f, 0.0f, 0.0f, -1.0f, 100.0f);
+		graphics->drawRectangle(quadObject2, quadTexture3, quad2, quadTexCoords, 6);
 
 		// Swap buffers
 		graphics->swapBuffers();
