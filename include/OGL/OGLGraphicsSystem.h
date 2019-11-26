@@ -57,7 +57,7 @@ namespace engine
 		virtual std::string loadFile(const std::string fileName);
 
 		
-		// Load textuers from file
+		// Load textures from file
 		virtual GLubyte* loadImage(const char* fileName, int &width, int &height, int &bits);
 		
 

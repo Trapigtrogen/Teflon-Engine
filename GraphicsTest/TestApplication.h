@@ -11,7 +11,9 @@
 #include <core/Log.h>
 #include <OGL/OGL.h>
 #include <OGL/OGLGraphicsSystem.h>
-
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace engine
 {
@@ -21,6 +23,7 @@ namespace engine
 	class TestApplication :	public GraphicsApplication {
 	public:
 		GLuint quadObject;
+		GLuint quadObject2;
 
 		TestApplication(Window* window, GraphicsSystem* graphics);
 
@@ -39,6 +42,10 @@ namespace engine
 		int isClicked;
 		OGLTexture2D* quadTexture;
 		OGLTexture2D* quadTexture2;
+		OGLTexture2D* quadTexture3;
+		glm::mat4 m_view;
+		glm::mat4 m_projection;
+		glm::mat4 m_model;
 	};
 
 }

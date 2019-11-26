@@ -19,11 +19,13 @@ namespace engine
 		
 		// Create Shader object
 		quadObject = graphics->createShaderProgram(vShader, fShader);
+		quadObject2 = graphics->createShaderProgram(vShader, fShader);
 
 		// CREATE TEXTURE FROM IMAGE FILE
 		int width, height, bits;
 		quadTexture = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/texture.jpg", width, height, bits));
 		quadTexture2 = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/clicktexture.png", width, height, bits));
+		quadTexture3 = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/asd1.jpg", width, height, bits));
 	}
 
 	TestApplication::~TestApplication() {}
@@ -37,6 +39,17 @@ namespace engine
 		isClicked = getWindow()->input->getButton();
 		//std::cout << posX << " - " << posY << " - " << isClicked << "\n";
 
+
+		// Translation
+		m_model = glm::translate(glm::mat4(1.0f), glm::vec3(300.0f, 300.0f, 0.0f));
+		// Rotation around Oz with 45 degrees
+		m_model = glm::rotate(m_model, m_totalTime, glm::vec3(0.0f, 0.0f, 1.0f));
+		// Scale is 3.0 
+		m_model = glm::scale(m_model, glm::vec3(300.0f, 300.0f, 100.0f));
+
+		m_view = glm::mat4(1.0f);
+		m_projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f);
+
 		return true;
 	}
 
@@ -48,13 +61,19 @@ namespace engine
 		// Clear screen with pulsating colour
 		graphics->clearScreen(val/4, val, val/1.4, true);
 
+		// Set MVP
+		glm::mat4 mvp = m_projection * glm::inverse(m_view) * m_model;
+		GLuint mvpLoc = glGetUniformLocation(quadObject, "MVP");
+		glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
+
+		// Texture coordinates
 		GLfloat quadTexCoords[] = {
-			0,0,
 			0,1,
-			1,1,
+			0,0,
 			1,0,
 			1,1,
-			0,0
+			1,0,
+			0,1
 		};
 			   
 		// Quad information
@@ -63,8 +82,8 @@ namespace engine
 		float dy = -0.5f; //starting corner Y
 		float depth = 0.0f; // Z-index
 
-		// Draw quad shape made from two triangles using OGL's own triangle drawing
-		GLfloat quad[] = { 
+		// Vertices for quad
+		GLfloat quad[] = {
 			dx + 0.0f,  dy + size, depth,
 			dx + 0.0f, dy + 0.0f, depth,
 			dx + size, dy + 0.0f, depth,
@@ -73,22 +92,14 @@ namespace engine
 			dx + size, dy + 0.0f, depth,
 			dx + 0.0f, dy + size, depth
 		};
-		//graphics->drawTriangles(quadObject, &quadTexture, quad, quadTexCoords, 6);
-		
-		// Draw quad from four corners only using self-made rectangle function to convert to two triangles
-		GLfloat quad2[] = { 
-			dx + 0.0f, dy + size, depth,
-			dx + 0.0f, dy + 0.0f, depth,
-			dx + size, dy + 0.0f, depth,
-			dx + size, dy + size, depth
-		};
 
 		if (!isClicked) {
-			graphics->drawRectangle(quadObject, quadTexture, quad2, quadTexCoords, 6);
+			graphics->drawTriangles(quadObject, quadTexture, quad, quadTexCoords, 6);
 		}
 		else {
-			graphics->drawRectangle(quadObject, quadTexture2, quad2, quadTexCoords, 6);
+			graphics->drawTriangles(quadObject, quadTexture2, quad, quadTexCoords, 6);
 		}
+		//graphics->drawTriangles(quadObject2, quadTexture3, quad, quadTexCoords, 6);
 
 		// Swap buffers
 		graphics->swapBuffers();
