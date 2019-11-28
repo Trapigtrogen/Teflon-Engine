@@ -55,6 +55,18 @@ namespace engine
 			window->input->setButton(0);
 		}
 		break;
+		
+		case WM_KEYDOWN: {
+			Win32Window *window = (Win32Window*)(LONG_PTR)GetWindowLongPtr(hWnd, GWL_USERDATA);
+			window->input->setKey(wParam, 1);
+		}
+		break;
+		
+		case WM_KEYUP: {
+			Win32Window *window = (Win32Window*)(LONG_PTR)GetWindowLongPtr(hWnd, GWL_USERDATA);
+			window->input->setKey(wParam, 0);
+		}
+		break;
 
 		default:
 			lRet = DefWindowProc(hWnd, uMsg, wParam, lParam);

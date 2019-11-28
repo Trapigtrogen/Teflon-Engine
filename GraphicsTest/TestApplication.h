@@ -33,10 +33,11 @@ namespace engine
 		virtual void render(Window* window, GraphicsSystem* graphics);
 
 	private:
+		HWND m_windowHandle;
 		float m_totalTime;
 		int posX;
 		int posY;
-		int isClicked;
+		int clicked;
 		OGLTexture2D* quadTexture;
 		OGLTexture2D* quadTexture2;
 		OGLTexture2D* quadTexture3;

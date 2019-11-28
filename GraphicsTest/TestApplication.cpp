@@ -12,14 +12,13 @@
 namespace engine
 {
 
-	TestApplication::TestApplication(Window* window, GraphicsSystem* graphics) : GraphicsApplication(window, graphics) , m_totalTime(0.0f) {
+	TestApplication::TestApplication(Window* window, GraphicsSystem* graphics) : GraphicsApplication(window, graphics) , m_totalTime(0.0f), m_windowHandle(window->getNativeWindow()) {
 		// Load shader files
 		std::string vShader = graphics->loadFile("shaders/vertexShader.txt");
 		std::string fShader = graphics->loadFile("shaders/fragmentShader.txt");
 		
 		// Create Shader object
 		quadObject = graphics->createShaderProgram(vShader, fShader);
-		quadObject2 = graphics->createShaderProgram(vShader, fShader);
 
 		// CREATE TEXTURE FROM IMAGE FILE
 		int width, height, bits;
@@ -33,11 +32,16 @@ namespace engine
 	bool TestApplication::update(float deltaTime) {
 		m_totalTime += deltaTime;
 
-		// INPUT
+		// MOUSE INPUT
 		posX = getWindow()->input->getMousePosX();
 		posY = getWindow()->input->getMousePosY();
-		isClicked = getWindow()->input->getButton();
-		//std::cout << posX << " - " << posY << " - " << isClicked << "\n";
+		clicked = getWindow()->input->getButton();
+
+		// KEYBOARD INPUT
+		// Close app with ESC
+		if(getWindow()->input->getKey(VK_ESCAPE) == 1) {
+			SendMessage(m_windowHandle, WM_CLOSE, 0, 0);
+		}
 
 		return true;
 	}
@@ -85,16 +89,16 @@ namespace engine
 		};
 
 
-		if (!isClicked) {
-			graphics->transform(quadObject, m_totalTime, 200.0f, 200.0f, 0.0f, 0.0f, 0.0f, 1.0f, 200.0f);
-			graphics->drawTriangles(quadObject, quadTexture, quad, quadTexCoords, 6);
-		}
-		else {
+		if (clicked) {
 			graphics->transform(quadObject, m_totalTime, 200.0f, 200.0f, 0.0f, 0.0f, 0.0f, 1.0f, 300.0f);
 			graphics->drawTriangles(quadObject, quadTexture2, quad, quadTexCoords, 6);
 		}
-		graphics->transform(quadObject2, m_totalTime, 400.0f, 400.0f, 0.0f, 0.0f, 0.0f, -1.0f, 100.0f);
-		graphics->drawRectangle(quadObject2, quadTexture3, quad2, quadTexCoords, 6);
+		else {
+			graphics->transform(quadObject, m_totalTime, 200.0f, 200.0f, 0.0f, 0.0f, 0.0f, 1.0f, 200.0f);
+			graphics->drawTriangles(quadObject, quadTexture, quad, quadTexCoords, 6);
+		}
+		graphics->transform(quadObject, m_totalTime, 400.0f, 400.0f, 0.0f, 0.0f, 0.0f, -1.0f, 100.0f);
+		graphics->drawRectangle(quadObject, quadTexture3, quad2, quadTexCoords, 6);
 
 		// Swap buffers
 		graphics->swapBuffers();

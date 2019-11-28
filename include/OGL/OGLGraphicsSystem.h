@@ -64,6 +64,7 @@ namespace engine
 		// Load textures from file
 		virtual GLubyte* loadImage(const char* fileName, int &width, int &height, int &bits);
 
+		virtual void transform(GLuint object, float m_totalTime, float traX, float traY, float traZ, float rotX, float rotY, float rotZ, float scaleX, float scaleY, float scaleZ);
 		virtual void transform(GLuint object, float m_totalTime, float traX, float traY, float traZ, float rotX, float rotY, float rotZ, float scale);
 		
 		virtual void swapBuffers();
