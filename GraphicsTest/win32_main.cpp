@@ -15,8 +15,8 @@
 
 int main(int argc, char* argv[]) {
 	//fclose(stdout);
-	int w = 1920;
-	int h = 1080;
+	int w = 1200;
+	int h = 720;
 	wchar_t buffer[150];
 	LOGI("Application create window (%d, %d)\n", w, h );
 	//fopen(stdout);

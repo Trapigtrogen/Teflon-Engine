@@ -281,9 +281,9 @@ namespace engine
 		return texture;
 	}
 
-	void OGLGraphicsSystem::transform(GLuint object, float m_totalTime, float traX, float traY, float traZ, float rotX, float rotY, float rotZ, float scaleX, float scaleY, float scaleZ) {
+	void OGLGraphicsSystem::transform(GLuint object, float speed, float traX, float traY, float traZ, float rotX, float rotY, float rotZ, float scaleX, float scaleY, float scaleZ) {
 		m_model = glm::translate(glm::mat4(1.0f), glm::vec3(traX, traY, traZ));
-		m_model = glm::rotate(m_model, m_totalTime, glm::vec3(rotX, rotY, rotZ));
+		m_model = glm::rotate(m_model, speed, glm::vec3(rotX, rotY, rotZ));
 		m_model = glm::scale(m_model, glm::vec3(scaleX, scaleY, scaleZ));
 
 		m_view = glm::mat4(1.0f);
@@ -295,9 +295,9 @@ namespace engine
 		glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
 	}
 	
-	void OGLGraphicsSystem::transform(GLuint object, float m_totalTime, float traX, float traY, float traZ, float rotX, float rotY, float rotZ, float scale) {
+	void OGLGraphicsSystem::transform(GLuint object, float speed, float traX, float traY, float traZ, float rotX, float rotY, float rotZ, float scale) {
 		m_model = glm::translate(glm::mat4(1.0f), glm::vec3(traX, traY, traZ));
-		m_model = glm::rotate(m_model, m_totalTime, glm::vec3(rotX, rotY, rotZ));
+		m_model = glm::rotate(m_model, speed, glm::vec3(rotX, rotY, rotZ));
 		m_model = glm::scale(m_model, glm::vec3(scale, scale, scale));
 
 		m_view = glm::mat4(1.0f);

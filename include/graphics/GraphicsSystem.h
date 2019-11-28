@@ -44,8 +44,8 @@ namespace engine
 		virtual GLubyte* loadImage(const char* fileName, int &width, int &height, int &bits) = 0;
 
 		// Translate Object
-		virtual void transform(GLuint object, float m_totalTime, float traX, float traY, float traZ, float rotX, float rotY, float rotZ, float scaleX, float scaleY, float scaleZ) = 0;
-		virtual void transform(GLuint object, float m_totalTime, float traX, float traY, float traZ, float rotX, float rotY, float rotZ, float scale) = 0;
+		virtual void transform(GLuint object, float speed, float traX, float traY, float traZ, float rotX, float rotY, float rotZ, float scaleX, float scaleY, float scaleZ) = 0;
+		virtual void transform(GLuint object, float speed, float traX, float traY, float traZ, float rotX, float rotY, float rotZ, float scale) = 0;
 
 		// Method for swapping backbuffer to screen.
 		virtual void swapBuffers() = 0;

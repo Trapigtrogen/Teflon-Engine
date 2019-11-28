@@ -1,0 +1,16 @@
+﻿  glm.cpp
+e:\koulu\grafiikkamoottori\teflon engine\include\glm\detail\type_quat.hpp(45): warning C4201: nonstandard extension used: nameless struct/union
+  e:\koulu\grafiikkamoottori\teflon engine\include\glm\detail\type_quat.hpp(125): note: see reference to class template instantiation 'glm::qua<T,Q>' being compiled
+  AndroidWindow.cpp
+  GraphicsApplication.cpp
+  ElapsedTimer.cpp
+  GraphicsSystem.cpp
+  InputManager.cpp
+  Object.cpp
+  OGL.cpp
+  OGLGraphicsSystem.cpp
+e:\koulu\grafiikkamoottori\teflon engine\include\glm\detail\type_quat.hpp(45): warning C4201: nonstandard extension used: nameless struct/union
+  e:\koulu\grafiikkamoottori\teflon engine\include\glm\detail\type_quat.hpp(125): note: see reference to class template instantiation 'glm::qua<T,Q>' being compiled
+  Win32Window.cpp
+  Window.cpp
+  engine.vcxproj -> E:\Koulu\Grafiikkamoottori\Teflon Engine\build\win32\Release\engine.lib

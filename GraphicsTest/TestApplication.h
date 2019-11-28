@@ -20,7 +20,6 @@ namespace engine
 	class TestApplication :	public GraphicsApplication {
 	public:
 		GLuint quadObject;
-		GLuint quadObject2;
 
 		TestApplication(Window* window, GraphicsSystem* graphics);
 
@@ -41,6 +40,7 @@ namespace engine
 		OGLTexture2D* quadTexture;
 		OGLTexture2D* quadTexture2;
 		OGLTexture2D* quadTexture3;
+		OGLTexture2D* quadTexture4;
 	};
 
 }

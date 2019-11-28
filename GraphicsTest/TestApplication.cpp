@@ -25,6 +25,7 @@ namespace engine
 		quadTexture = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/texture.jpg", width, height, bits));
 		quadTexture2 = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/clicktexture.png", width, height, bits));
 		quadTexture3 = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/asd1.jpg", width, height, bits));
+		quadTexture4 = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/asd2.jpg", width, height, bits));
 	}
 
 	TestApplication::~TestApplication() {}
@@ -48,10 +49,10 @@ namespace engine
 
 	void TestApplication::render(Window* window, GraphicsSystem* graphics) {
 		(void)window;	
-		float val = fabsf(sinf(2.0f*m_totalTime));
+		float wave = fabsf(sinf(2.0f*m_totalTime));
 
 		// Clear screen with pulsating colour
-		graphics->clearScreen(val/4, val, val/1.4, true);
+		graphics->clearScreen(wave/4, wave, wave/1.4, true);
 
 		// Texture coordinates
 		GLfloat quadTexCoords[] = {
@@ -83,11 +84,10 @@ namespace engine
 		// User friendly quad
 		GLfloat quad2[] = {
 			dx + 0.0f,  dy + size, depth,
-			dx + 0.0, dy + 0.0, depth,
+			dx + 0.0, dy + 0.0f, depth,
 			dx + size, dy + 0.0f, depth,
 			dx + size, dy + size, depth
 		};
-
 
 		if (clicked) {
 			graphics->transform(quadObject, m_totalTime, 200.0f, 200.0f, 0.0f, 0.0f, 0.0f, 1.0f, 300.0f);
@@ -97,8 +97,10 @@ namespace engine
 			graphics->transform(quadObject, m_totalTime, 200.0f, 200.0f, 0.0f, 0.0f, 0.0f, 1.0f, 200.0f);
 			graphics->drawTriangles(quadObject, quadTexture, quad, quadTexCoords, 6);
 		}
-		graphics->transform(quadObject, m_totalTime, 400.0f, 400.0f, 0.0f, 0.0f, 0.0f, -1.0f, 100.0f);
+		float bounce = 600 + 300 * -wave;
+		graphics->transform(quadObject, m_totalTime, 400.0f, (600 + 300 * -wave), 0.0f, 0.0f, 0.0f, -1.0f, 100.0f);
 		graphics->drawRectangle(quadObject, quadTexture3, quad2, quadTexCoords, 6);
+
 
 		// Swap buffers
 		graphics->swapBuffers();
