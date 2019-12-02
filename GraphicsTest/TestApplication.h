@@ -34,9 +34,17 @@ namespace engine
 	private:
 		HWND m_windowHandle;
 		float m_totalTime;
+		int i;
+
 		int posX;
 		int posY;
 		int clicked;
+		
+		int keyPressedZ;
+		int keyPressedX;
+		int keyPressedComma;
+		int keyPressedDot;
+
 		OGLTexture2D* quadTexture;
 		OGLTexture2D* quadTexture2;
 		OGLTexture2D* quadTexture3;
