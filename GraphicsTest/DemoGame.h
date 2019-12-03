@@ -54,9 +54,9 @@ namespace engine
 		float goal = 0;
 		float treshold = 50;
 		float speed = 0;
-		float acceleration = 10;
+		float acceleration = 10; // smaller = faster
 		float minSpeed = 5;
-		float maxSpeed = 15;
+		float maxSpeed = 20;
 
 		int posX = 0;
 		int posY = 0;
@@ -70,7 +70,7 @@ namespace engine
 		int i = 0;
 		float spawnTimer = 0;
 		float playAreaColumns[4];
-		OGLTexture2D* notesTextures[5];
+		OGLTexture2D* notesTextures[4];
 		OGLTexture2D* scoreTextures[10];
 
 		// Texture coordinates

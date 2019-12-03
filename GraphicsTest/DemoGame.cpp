@@ -27,12 +27,11 @@ namespace engine
 
 		// CREATE TEXTURE FROM IMAGE FILE
 		int width, height, bits;
-		notesTextures[0] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/blue.png", width, height, bits));
-		notesTextures[1] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/red.png", width, height, bits));
-		notesTextures[2] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/green.png", width, height, bits));
-		notesTextures[3] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/yellow.png", width, height, bits));
-		notesTextures[4] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/goal.png", width, height, bits));
-
+		notesTextures[0] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/noteBlue.png", width, height, bits));
+		notesTextures[1] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/noteRed.png", width, height, bits));
+		notesTextures[2] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/noteGreen.png", width, height, bits));
+		notesTextures[3] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/noteYellow.png", width, height, bits));
+		
 		scoreTextures[0] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/score0.png", width, height, bits));
 		scoreTextures[1] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/score1.png", width, height, bits));
 		scoreTextures[2] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/score2.png", width, height, bits));
@@ -213,7 +212,8 @@ namespace engine
 				graphics->drawRectangle(quadObject, notesTextures[3], quad, quadTexCoords, 6);
 			}
 
-			// DAFUQ BUG FIX
+			// DAFUQ BUG FIX: For some reason on my laptop hte program ignores the last draw call.
+			//                This is to fix that untill I figure out why it happens in the first place.
 			graphics->drawRectangle(quadObject, notesTextures[3], quad, quadTexCoords, 6);
 
 			// Swap buffers
