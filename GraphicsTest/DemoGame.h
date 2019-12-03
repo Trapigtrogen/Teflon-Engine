@@ -40,6 +40,9 @@ namespace engine
 		float goal = 0;
 		float treshold = 0;
 		float speed = 0;
+		float acceleration = 10;
+		float minSpeed = 5;
+		float maxSpeed = 15;
 
 		int posX = 0;
 		int posY = 0;
@@ -49,6 +52,9 @@ namespace engine
 		int keyPressedX = 0;
 		int keyPressedComma = 0;
 		int keyPressedDot = 0;
+
+		float noteSize = 70.0f;
+		float columnPadding = 80;
 
 		int i = 0;
 		float spawnTimer = 0;

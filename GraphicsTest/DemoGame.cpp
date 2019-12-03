@@ -14,7 +14,6 @@ namespace engine
 {
 
 	float DemoGame::getRandom(int start, int end) {
-		//srand(time(NULL));
 		return start + rand() % end;
 	}
 
@@ -33,18 +32,29 @@ namespace engine
 		notesTextures[2] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/green.png", width, height, bits));
 		notesTextures[3] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/yellow.png", width, height, bits));
 
-		playAreaColumns[0] = window->getWidth() / 12;
-		playAreaColumns[1] = window->getWidth() / 6;
-		playAreaColumns[2] = window->getWidth() / 4;
-		playAreaColumns[3] = window->getWidth() / 3;
+		playAreaColumns[0] = window->getWidth() / 7;			 // Blue
+		playAreaColumns[1] = playAreaColumns[0] + columnPadding; // Red
+		playAreaColumns[2] = playAreaColumns[1] + columnPadding; // Green
+		playAreaColumns[3] = playAreaColumns[2] + columnPadding; // Yellow
 		goal = window->getHeight() - 500.0f;
+
+		srand(time(NULL));
 	}
 
 	DemoGame::~DemoGame() {}
 
 	bool DemoGame::update(float deltaTime) {
 		m_totalTime += deltaTime;
-		speed = 10;
+		// Note timing. values set in header
+		if (m_totalTime/acceleration < minSpeed) { // Minimum speed
+			speed = minSpeed;
+		}
+		else if (m_totalTime/acceleration > maxSpeed) { // Maximum speed
+			speed = maxSpeed;
+		}
+		else {
+			speed = m_totalTime / acceleration;
+		}
 
 		// MOUSE INPUT
 		posX = getWindow()->input->getMousePosX();
@@ -63,7 +73,7 @@ namespace engine
 		keyPressedComma = getWindow()->input->getKey(VK_OEM_COMMA);
 		keyPressedDot = getWindow()->input->getKey(VK_OEM_PERIOD);
 
-		if (spawnTimer < m_totalTime * 4) {
+		if (spawnTimer < m_totalTime * 5) {
 			int id = getRandom(0, 4);
 			Note* note = new Note;
 			note->id = id;
@@ -102,7 +112,7 @@ namespace engine
 				int index = std::distance(notes.begin(), it);
 				notes[index]->location += speed;
 				//std::cout << notes[index] << " - " << notes[index]->id  << " - " << notes[index]->location << std::endl;
-				graphics->transform(quadObject, 0, playAreaColumns[notes[index]->id], notes[index]->location, 0.0f, 0.0f, 0.0f, 1.0f, 100.0f);
+				graphics->transform(quadObject, 0, playAreaColumns[notes[index]->id], notes[index]->location, 0.0f, 0.0f, 0.0f, 1.0f, noteSize);
 				graphics->drawRectangle(quadObject, (notesTextures[notes[index]->id]), quad, quadTexCoords, 6);
 				if (notes[index]->location > 1000) {
 					//notes.erase(notes.begin() + index);
@@ -112,19 +122,19 @@ namespace engine
 
 			// Goals
 			if (!keyPressedZ) {
-				graphics->transform(quadObject, 0, playAreaColumns[0], goal, 0.0f, 0.0f, 0.0f, 1.0f, 100.0f);
+				graphics->transform(quadObject, 0, playAreaColumns[0], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize + 10);
 				graphics->drawRectangle(quadObject, notesTextures[0], quad, quadTexCoords, 6);
 			}
 			if (!keyPressedX) {
-				graphics->transform(quadObject, 0, playAreaColumns[1], goal, 0.0f, 0.0f, 0.0f, 1.0f, 100.0f);
+				graphics->transform(quadObject, 0, playAreaColumns[1], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize + 10);
 				graphics->drawRectangle(quadObject, notesTextures[1], quad, quadTexCoords, 6);
 			}
 			if (!keyPressedComma) {
-				graphics->transform(quadObject, 0, playAreaColumns[2], goal, 0.0f, 0.0f, 0.0f, 1.0f, 100.0f);
+				graphics->transform(quadObject, 0, playAreaColumns[2], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize + 10);
 				graphics->drawRectangle(quadObject, notesTextures[2], quad, quadTexCoords, 6);
 			}
 			if (!keyPressedDot) {
-				graphics->transform(quadObject, 0, playAreaColumns[3], goal, 0.0f, 0.0f, 0.0f, 1.0f, 100.0f);
+				graphics->transform(quadObject, 0, playAreaColumns[3], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize + 10);
 				graphics->drawRectangle(quadObject, notesTextures[3], quad, quadTexCoords, 6);
 			}
 
