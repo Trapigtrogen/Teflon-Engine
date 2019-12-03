@@ -31,6 +31,18 @@ namespace engine
 		notesTextures[1] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/red.png", width, height, bits));
 		notesTextures[2] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/green.png", width, height, bits));
 		notesTextures[3] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/yellow.png", width, height, bits));
+		notesTextures[4] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/goal.png", width, height, bits));
+
+		scoreTextures[0] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/score0.png", width, height, bits));
+		scoreTextures[1] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/score1.png", width, height, bits));
+		scoreTextures[2] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/score2.png", width, height, bits));
+		scoreTextures[3] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/score3.png", width, height, bits));
+		scoreTextures[4] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/score4.png", width, height, bits));
+		scoreTextures[5] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/score5.png", width, height, bits));
+		scoreTextures[6] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/score6.png", width, height, bits));
+		scoreTextures[7] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/score7.png", width, height, bits));
+		scoreTextures[8] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/score8.png", width, height, bits));
+		scoreTextures[9] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/score9.png", width, height, bits));
 
 		playAreaColumns[0] = window->getWidth() / 7;			 // Blue
 		playAreaColumns[1] = playAreaColumns[0] + columnPadding; // Red
@@ -45,17 +57,7 @@ namespace engine
 
 	bool DemoGame::update(float deltaTime) {
 		m_totalTime += deltaTime;
-		// Note timing. values set in header
-		if (m_totalTime/acceleration < minSpeed) { // Minimum speed
-			speed = minSpeed;
-		}
-		else if (m_totalTime/acceleration > maxSpeed) { // Maximum speed
-			speed = maxSpeed;
-		}
-		else {
-			speed = m_totalTime / acceleration;
-		}
-
+		
 		// MOUSE INPUT
 		posX = getWindow()->input->getMousePosX();
 		posY = getWindow()->input->getMousePosY();
@@ -73,6 +75,7 @@ namespace engine
 		keyPressedComma = getWindow()->input->getKey(VK_OEM_COMMA);
 		keyPressedDot = getWindow()->input->getKey(VK_OEM_PERIOD);
 
+		// Note spawner
 		if (spawnTimer < m_totalTime * 5) {
 			int id = getRandom(0, 4);
 			Note* note = new Note;
@@ -80,6 +83,40 @@ namespace engine
 			note->location = -100.0f;
 			notes.push_back(note);
 			spawnTimer++;
+		}
+
+		// Note speed. values set in header
+		if (m_totalTime / acceleration < minSpeed) { // Minimum speed
+			speed = minSpeed;
+		}
+		else if (m_totalTime / acceleration > maxSpeed) { // Maximum speed
+			speed = maxSpeed;
+		}
+		else {
+			speed = m_totalTime / acceleration;
+		}
+
+		// Score calculating
+		while (combo > 0) {
+			score1++;
+			combo--;
+			if (score1 > 9) {
+				score10++;
+				score1 -= 10;
+				
+			}
+			if (score10 > 9) {
+				score100++;
+				score10 -= 10;
+
+			}
+			if (score100 > 9) {
+				score1000++;
+				score100 -= 10;
+			}
+			if (score1000 > 8) {
+				score1000 = 9;
+			}
 		}
 
 		return true;
@@ -107,18 +144,56 @@ namespace engine
 				dx + size, dy + 0.0f, depth,
 				dx + size, dy + size, depth
 			};
-
-			for (std::vector<Note*>::iterator it = notes.begin(); it != notes.end(); ++it) {
+			
+			// Note remover
+			it = notes.begin();
+			while(it != notes.end()){
 				int index = std::distance(notes.begin(), it);
 				notes[index]->location += speed;
-				//std::cout << notes[index] << " - " << notes[index]->id  << " - " << notes[index]->location << std::endl;
 				graphics->transform(quadObject, 0, playAreaColumns[notes[index]->id], notes[index]->location, 0.0f, 0.0f, 0.0f, 1.0f, noteSize);
 				graphics->drawRectangle(quadObject, (notesTextures[notes[index]->id]), quad, quadTexCoords, 6);
-				if (notes[index]->location > 1000) {
-					//notes.erase(notes.begin() + index);
+
+				// Remove notes that are out of screen
+				if (notes[index]->location > (window->getHeight() + 200.0f)) {
+					combo = 0;
+					score1 = 0;
+					score10 = 0;
+					score100 = 0;
+					score1000 = 0;
+					it = notes.erase(it);
+				}
+
+				// Remove notes when they are hit
+				if (keyPressedZ && notes[index]->id == 0 && notes[index]->location < goal + treshold && notes[index]->location > goal - treshold) {
+					combo++;
+					it = notes.erase(it);
+				}
+				if (keyPressedX && notes[index]->id == 1 && notes[index]->location < goal + treshold && notes[index]->location > goal - treshold) {
+					combo++;
+					it = notes.erase(it);
+				}
+				if (keyPressedComma && notes[index]->id == 2 && notes[index]->location < goal + treshold && notes[index]->location > goal - treshold) {
+					combo++;
+					it = notes.erase(it);
+				}
+				if (keyPressedDot && notes[index]->id == 3 && notes[index]->location < goal + treshold && notes[index]->location > goal - treshold) {
+					combo++;
+					it = notes.erase(it);
+				}
+				else {
+					it++;
 				}
 			}
-	
+
+			// Score
+			graphics->transform(quadObject, 0, scoreStartX, scoreStartY, -1.0f, 0.0f, 0.0f, 1.0f, scoreSize);
+			graphics->drawRectangle(quadObject, scoreTextures[score1000], quad, quadTexCoords, 6);
+			graphics->transform(quadObject, 0, scoreStartX + scorePadding, scoreStartY, -1.0f, 0.0f, 0.0f, 1.0f, scoreSize);
+			graphics->drawRectangle(quadObject, scoreTextures[score100], quad, quadTexCoords, 6);
+			graphics->transform(quadObject, 0, scoreStartX + scorePadding * 2, scoreStartY, -1.0f, 0.0f, 0.0f, 1.0f, scoreSize);
+			graphics->drawRectangle(quadObject, scoreTextures[score10], quad, quadTexCoords, 6);
+			graphics->transform(quadObject, 0, scoreStartX + scorePadding * 3, scoreStartY, -1.0f, 0.0f, 0.0f, 1.0f, scoreSize);
+			graphics->drawRectangle(quadObject, scoreTextures[score1], quad, quadTexCoords, 6);
 
 			// Goals
 			if (!keyPressedZ) {

@@ -35,10 +35,24 @@ namespace engine
 	private:
 		HWND m_windowHandle;
 		float m_totalTime = 0;
+		std::vector<Note*>::iterator it;
 
 		std::vector<Note*> notes;
+		float noteSize = 70.0f;
+		float columnPadding = 80;
+
+		float scoreSize = 30.0f;
+		float scoreStartX = 50;
+		float scoreStartY = 50;
+		float scorePadding = 30;
+		int combo = 0;
+		int score1000 = 0;
+		int score100 = 0;
+		int score10 = 0;
+		int score1 = 0;
+
 		float goal = 0;
-		float treshold = 0;
+		float treshold = 50;
 		float speed = 0;
 		float acceleration = 10;
 		float minSpeed = 5;
@@ -53,13 +67,11 @@ namespace engine
 		int keyPressedComma = 0;
 		int keyPressedDot = 0;
 
-		float noteSize = 70.0f;
-		float columnPadding = 80;
-
 		int i = 0;
 		float spawnTimer = 0;
 		float playAreaColumns[4];
-		OGLTexture2D* notesTextures[4];
+		OGLTexture2D* notesTextures[5];
+		OGLTexture2D* scoreTextures[10];
 
 		// Texture coordinates
 		GLfloat quadTexCoords[12] = {
