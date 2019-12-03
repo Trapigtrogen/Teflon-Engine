@@ -87,6 +87,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DemoGame.h" />
+    <ClInclude Include="Note.h" />
     <ClInclude Include="TestApplication.h" />
   </ItemGroup>
   <ItemGroup>

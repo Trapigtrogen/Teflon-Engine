@@ -11,6 +11,7 @@
 #include <core/Log.h>
 #include <OGL/OGL.h>
 #include <OGL/OGLGraphicsSystem.h>
+#include <Note.h>
 
 namespace engine
 {
@@ -19,12 +20,6 @@ namespace engine
 
 	class DemoGame : public GraphicsApplication {
 	public:
-		int i;
-		float spawnrate;
-		float playAreaColumns[4];
-
-		GLuint quadObject;
-
 		DemoGame(Window* window, GraphicsSystem* graphics);
 
 		~DemoGame();
@@ -39,26 +34,38 @@ namespace engine
 
 	private:
 		HWND m_windowHandle;
-		float m_totalTime;
+		float m_totalTime = 0;
 
-		std::vector<float> notes;
-		float goal;
-		float treshold;
-		float speed;
+		std::vector<Note*> notes;
+		float goal = 0;
+		float treshold = 0;
+		float speed = 0;
 
-		int posX;
-		int posY;
-		int clicked;
+		int posX = 0;
+		int posY = 0;
+		int clicked = 0;
 
-		int keyPressedZ;
-		int keyPressedX;
-		int keyPressedComma;
-		int keyPressedDot;
+		int keyPressedZ = 0;
+		int keyPressedX = 0;
+		int keyPressedComma = 0;
+		int keyPressedDot = 0;
 
-		OGLTexture2D* blueTexture;
-		OGLTexture2D* redTexture;
-		OGLTexture2D* greenTexture;
-		OGLTexture2D* yellowTexture;
+		int i = 0;
+		float spawnTimer = 0;
+		float playAreaColumns[4];
+		OGLTexture2D* notesTextures[4];
+
+		// Texture coordinates
+		GLfloat quadTexCoords[12] = {
+			0,1,
+			0,0,
+			1,0,
+			1,1,
+			1,0,
+			0,1
+		};
+
+		GLuint quadObject;
 	};
 
 }

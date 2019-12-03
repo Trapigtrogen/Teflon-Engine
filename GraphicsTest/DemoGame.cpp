@@ -8,11 +8,13 @@
 #include <graphics/GraphicsSystem.h>
 #include <graphics/Window.h>
 #include <math.h>
+#include <time.h>
 
 namespace engine
 {
 
 	float DemoGame::getRandom(int start, int end) {
+		//srand(time(NULL));
 		return start + rand() % end;
 	}
 
@@ -26,10 +28,10 @@ namespace engine
 
 		// CREATE TEXTURE FROM IMAGE FILE
 		int width, height, bits;
-		blueTexture = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/blue.png", width, height, bits));
-		redTexture = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/red.png", width, height, bits));
-		greenTexture = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/green.png", width, height, bits));
-		yellowTexture = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/yellow.png", width, height, bits));
+		notesTextures[0] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/blue.png", width, height, bits));
+		notesTextures[1] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/red.png", width, height, bits));
+		notesTextures[2] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/green.png", width, height, bits));
+		notesTextures[3] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/yellow.png", width, height, bits));
 
 		playAreaColumns[0] = window->getWidth() / 12;
 		playAreaColumns[1] = window->getWidth() / 6;
@@ -42,7 +44,7 @@ namespace engine
 
 	bool DemoGame::update(float deltaTime) {
 		m_totalTime += deltaTime;
-		speed = m_totalTime * 800;
+		speed = 10;
 
 		// MOUSE INPUT
 		posX = getWindow()->input->getMousePosX();
@@ -61,10 +63,13 @@ namespace engine
 		keyPressedComma = getWindow()->input->getKey(VK_OEM_COMMA);
 		keyPressedDot = getWindow()->input->getKey(VK_OEM_PERIOD);
 
-		if (spawnrate < m_totalTime * 5) {
-			float note = getRandom(0, 3);
+		if (spawnTimer < m_totalTime * 4) {
+			int id = getRandom(0, 4);
+			Note* note = new Note;
+			note->id = id;
+			note->location = -100.0f;
 			notes.push_back(note);
-			spawnrate++;
+			spawnTimer++;
 		}
 
 		return true;
@@ -78,16 +83,6 @@ namespace engine
 
 			// Clear screen with pulsating colour
 			graphics->clearScreen(0, 0, 0, true);
-
-			// Texture coordinates
-			GLfloat quadTexCoords[] = {
-				0,1,
-				0,0,
-				1,0,
-				1,1,
-				1,0,
-				0,1
-			};
 
 			// Quad information
 			float size = 1.0f;
@@ -103,33 +98,38 @@ namespace engine
 				dx + size, dy + size, depth
 			};
 
-
-			for each (int note in notes) {
-				graphics->transform(quadObject, 0, playAreaColumns[note], -100 + speed, 0.0f, 0.0f, 0.0f, 1.0f, 100.0f);
-				graphics->drawRectangle(quadObject, blueTexture, quad, quadTexCoords, 6);
+			for (std::vector<Note*>::iterator it = notes.begin(); it != notes.end(); ++it) {
+				int index = std::distance(notes.begin(), it);
+				notes[index]->location += speed;
+				//std::cout << notes[index] << " - " << notes[index]->id  << " - " << notes[index]->location << std::endl;
+				graphics->transform(quadObject, 0, playAreaColumns[notes[index]->id], notes[index]->location, 0.0f, 0.0f, 0.0f, 1.0f, 100.0f);
+				graphics->drawRectangle(quadObject, (notesTextures[notes[index]->id]), quad, quadTexCoords, 6);
+				if (notes[index]->location > 1000) {
+					//notes.erase(notes.begin() + index);
+				}
 			}
-
+	
 
 			// Goals
 			if (!keyPressedZ) {
 				graphics->transform(quadObject, 0, playAreaColumns[0], goal, 0.0f, 0.0f, 0.0f, 1.0f, 100.0f);
-				graphics->drawRectangle(quadObject, blueTexture, quad, quadTexCoords, 6);
+				graphics->drawRectangle(quadObject, notesTextures[0], quad, quadTexCoords, 6);
 			}
 			if (!keyPressedX) {
 				graphics->transform(quadObject, 0, playAreaColumns[1], goal, 0.0f, 0.0f, 0.0f, 1.0f, 100.0f);
-				graphics->drawRectangle(quadObject, redTexture, quad, quadTexCoords, 6);
+				graphics->drawRectangle(quadObject, notesTextures[1], quad, quadTexCoords, 6);
 			}
 			if (!keyPressedComma) {
 				graphics->transform(quadObject, 0, playAreaColumns[2], goal, 0.0f, 0.0f, 0.0f, 1.0f, 100.0f);
-				graphics->drawRectangle(quadObject, greenTexture, quad, quadTexCoords, 6);
+				graphics->drawRectangle(quadObject, notesTextures[2], quad, quadTexCoords, 6);
 			}
 			if (!keyPressedDot) {
 				graphics->transform(quadObject, 0, playAreaColumns[3], goal, 0.0f, 0.0f, 0.0f, 1.0f, 100.0f);
-				graphics->drawRectangle(quadObject, yellowTexture, quad, quadTexCoords, 6);
+				graphics->drawRectangle(quadObject, notesTextures[3], quad, quadTexCoords, 6);
 			}
 
 			// DAFUQ BUG FIX
-			graphics->drawRectangle(quadObject, yellowTexture, quad, quadTexCoords, 6);
+			graphics->drawRectangle(quadObject, notesTextures[3], quad, quadTexCoords, 6);
 
 			// Swap buffers
 			graphics->swapBuffers();
