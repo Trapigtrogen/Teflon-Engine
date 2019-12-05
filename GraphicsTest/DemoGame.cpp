@@ -96,27 +96,10 @@ namespace engine
 		}
 
 		// Score calculating
-		while (combo > 0) {
-			score1++;
-			combo--;
-			if (score1 > 9) {
-				score10++;
-				score1 -= 10;
-				
-			}
-			if (score10 > 9) {
-				score100++;
-				score10 -= 10;
-
-			}
-			if (score100 > 9) {
-				score1000++;
-				score100 -= 10;
-			}
-			if (score1000 > 8) {
-				score1000 = 9;
-			}
-		}
+		score1 = combo % 10;
+		score10 = combo / 10 % 10;
+		score100 = combo / 100 % 10;
+		score1000 = combo / 1000 % 10;
 
 		return true;
 	}
@@ -154,11 +137,7 @@ namespace engine
 
 				// Remove notes that are out of screen
 				if (notes[index]->location > (window->getHeight() + 200.0f)) {
-					combo = 0;
-					score1 = 0;
-					score10 = 0;
-					score100 = 0;
-					score1000 = 0;
+					combo = score1 = score10 = score100 = score1000 = 0;
 					it = notes.erase(it);
 				}
 
@@ -196,21 +175,33 @@ namespace engine
 
 			// Goals
 			if (!keyPressedZ) {
-				graphics->transform(quadObject, 0, playAreaColumns[0], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize + 10);
-				graphics->drawRectangle(quadObject, notesTextures[0], quad, quadTexCoords, 6);
+				graphics->transform(quadObject, 0, playAreaColumns[0], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize + 20);
 			}
+			else {
+				graphics->transform(quadObject, 0, playAreaColumns[0], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize);
+			}
+			graphics->drawRectangle(quadObject, notesTextures[0], quad, quadTexCoords, 6);
 			if (!keyPressedX) {
-				graphics->transform(quadObject, 0, playAreaColumns[1], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize + 10);
-				graphics->drawRectangle(quadObject, notesTextures[1], quad, quadTexCoords, 6);
+				graphics->transform(quadObject, 0, playAreaColumns[1], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize + 20);
 			}
+			else {
+				graphics->transform(quadObject, 0, playAreaColumns[1], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize);
+			}
+			graphics->drawRectangle(quadObject, notesTextures[1], quad, quadTexCoords, 6);
 			if (!keyPressedComma) {
-				graphics->transform(quadObject, 0, playAreaColumns[2], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize + 10);
-				graphics->drawRectangle(quadObject, notesTextures[2], quad, quadTexCoords, 6);
+				graphics->transform(quadObject, 0, playAreaColumns[2], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize + 20);
 			}
+			else {
+				graphics->transform(quadObject, 0, playAreaColumns[2], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize);
+			}
+			graphics->drawRectangle(quadObject, notesTextures[2], quad, quadTexCoords, 6);
 			if (!keyPressedDot) {
-				graphics->transform(quadObject, 0, playAreaColumns[3], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize + 10);
-				graphics->drawRectangle(quadObject, notesTextures[3], quad, quadTexCoords, 6);
+				graphics->transform(quadObject, 0, playAreaColumns[3], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize + 20);
 			}
+			else {
+				graphics->transform(quadObject, 0, playAreaColumns[3], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize);
+			}
+			graphics->drawRectangle(quadObject, notesTextures[3], quad, quadTexCoords, 6);
 
 			// DAFUQ BUG FIX: For some reason on my laptop hte program ignores the last draw call.
 			//                This is to fix that untill I figure out why it happens in the first place.
