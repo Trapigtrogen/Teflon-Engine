@@ -77,6 +77,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\android\AndroidWindow.h" />
+    <ClInclude Include="..\..\include\core\functionality.h" />
     <ClInclude Include="..\..\include\core\InputManager.h" />
     <ClInclude Include="..\..\include\core\Object.h" />
     <ClInclude Include="..\..\include\core\Ref.h" />
@@ -336,6 +337,7 @@
     <ClCompile Include="..\..\source\android\AndroidWindow.cpp">
       <FileType>Text</FileType>
     </ClCompile>
+    <ClCompile Include="..\..\source\functionality.cpp" />
     <ClCompile Include="..\..\source\GraphicsApplication.cpp" />
     <ClCompile Include="..\..\source\ElapsedTimer.cpp" />
     <ClCompile Include="..\..\source\GraphicsSystem.cpp" />

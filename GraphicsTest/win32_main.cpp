@@ -7,7 +7,7 @@
 #include <win32/Win32Window.h>
 #include <core/Ref.h>
 #include <OGL/OGLGraphicsSystem.h>
-#include <TestApplication.h>
+#include <DemoGame.h>
 #include <core/ElapsedTimer.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,8 +15,8 @@
 
 int main(int argc, char* argv[]) {
 	//fclose(stdout);
-	int w = 1200;
-	int h = 720;
+	int w = 1800;
+	int h = 1000;
 	wchar_t buffer[150];
 	LOGI("Application create window (%d, %d)\n", w, h );
 	//fopen(stdout);
@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
 
 	engine::Ref<engine::OGLGraphicsSystem> graphics = new engine::OGLGraphicsSystem(window);
 	window->setGraphics(graphics); // Set graphics for window
-	engine::Ref<engine::GraphicsApplication> application = new engine::TestApplication(window, graphics);
+	engine::Ref<engine::GraphicsApplication> application = new engine::DemoGame(window, graphics);
 	window->setApplication(application); // Set application for window
 	
 	engine::ElapsedTimer frameTimer;

@@ -86,9 +86,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DemoGame.h" />
+    <ClInclude Include="Note.h" />
     <ClInclude Include="TestApplication.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DemoGame.cpp" />
     <ClCompile Include="win32_main.cpp" />
     <ClCompile Include="TestApplication.cpp" />
   </ItemGroup>

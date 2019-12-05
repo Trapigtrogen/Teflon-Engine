@@ -22,10 +22,10 @@ namespace engine
 
 		// CREATE TEXTURE FROM IMAGE FILE
 		int width, height, bits;
-		quadTexture = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/texture.jpg", width, height, bits));
-		quadTexture2 = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/clicktexture.png", width, height, bits));
-		quadTexture3 = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/asd1.jpg", width, height, bits));
-		quadTexture4 = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/asd2.jpg", width, height, bits));
+		quadTexture = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/blue.png", width, height, bits));
+		quadTexture2 = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/green.png", width, height, bits));
+		quadTexture3 = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/red.png", width, height, bits));
+		quadTexture4 = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/yellow.png", width, height, bits));
 	}
 
 	TestApplication::~TestApplication() {}
@@ -37,12 +37,16 @@ namespace engine
 		posX = getWindow()->input->getMousePosX();
 		posY = getWindow()->input->getMousePosY();
 		clicked = getWindow()->input->getButton();
+		//std::cout << posX << " - " << posY << " - " << clicked << std::endl;
 
 		// KEYBOARD INPUT
 		// Close app with ESC
 		if(getWindow()->input->getKey(VK_ESCAPE) == 1) {
 			SendMessage(m_windowHandle, WM_CLOSE, 0, 0);
 		}
+		// other keys
+		keyPressedX = getWindow()->input->getKey(WM_KEY_X);
+		keyPressedZ = getWindow()->input->getKey(WM_KEY_Z);
 
 		return true;
 	}
@@ -89,18 +93,25 @@ namespace engine
 			dx + size, dy + size, depth
 		};
 
-		if (clicked) {
+		if (clicked && posX < window->getWidth()*0.5 && posY < window->getHeight()*0.5) {
 			graphics->transform(quadObject, m_totalTime, 200.0f, 200.0f, 0.0f, 0.0f, 0.0f, 1.0f, 300.0f);
-			graphics->drawTriangles(quadObject, quadTexture2, quad, quadTexCoords, 6);
+			graphics->drawRectangle(quadObject, quadTexture2, quad2, quadTexCoords, 6);
 		}
 		else {
 			graphics->transform(quadObject, m_totalTime, 200.0f, 200.0f, 0.0f, 0.0f, 0.0f, 1.0f, 200.0f);
-			graphics->drawTriangles(quadObject, quadTexture, quad, quadTexCoords, 6);
+			graphics->drawRectangle(quadObject, quadTexture, quad2, quadTexCoords, 6);
 		}
-		float bounce = 600 + 300 * -wave;
-		graphics->transform(quadObject, m_totalTime, 400.0f, (600 + 300 * -wave), 0.0f, 0.0f, 0.0f, -1.0f, 100.0f);
+		graphics->transform(quadObject, m_totalTime, 400.0f, (600 + 300 * -wave), 0.0f, 0.0f, 0.0f, -0.5f, 100.0f);
 		graphics->drawRectangle(quadObject, quadTexture3, quad2, quadTexCoords, 6);
 
+		if (keyPressedX || keyPressedZ) {
+			graphics->transform(quadObject, m_totalTime, 600.0f, (300 * wave), 0.0f, 0.0f, 0.0f, -0.5f, 100.0f);
+			graphics->drawRectangle(quadObject, quadTexture4, quad2, quadTexCoords, 6);
+		}
+
+
+		// DAFUQ BUG FIX
+		graphics->drawRectangle(quadObject, quadTexture3, quad2, quadTexCoords, 6);
 
 		// Swap buffers
 		graphics->swapBuffers();
