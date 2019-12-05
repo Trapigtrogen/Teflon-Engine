@@ -30,8 +30,6 @@ namespace engine
 		/// Renders application.
 		virtual void render(Window* window, GraphicsSystem* graphics);
 
-		float getRandom(int start, int end);
-
 	private:
 		HWND m_windowHandle;
 		float m_totalTime = 0;

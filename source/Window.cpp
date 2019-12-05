@@ -11,6 +11,8 @@ namespace engine
 
 	Window::Window() : Object(), m_app(0), m_graphics(0){
 		input = new InputManager();
+		functions = new Functionality();
+		srand(time(NULL));
 	}
 	
 	Window::~Window(){}

@@ -8,14 +8,9 @@
 #include <graphics/GraphicsSystem.h>
 #include <graphics/Window.h>
 #include <math.h>
-#include <time.h>
 
 namespace engine
 {
-
-	float DemoGame::getRandom(int start, int end) {
-		return start + rand() % end;
-	}
 
 	DemoGame::DemoGame(Window* window, GraphicsSystem* graphics) : GraphicsApplication(window, graphics), m_totalTime(0.0f), m_windowHandle(window->getNativeWindow()) {
 		// Load shader files
@@ -48,20 +43,12 @@ namespace engine
 		playAreaColumns[2] = playAreaColumns[1] + columnPadding; // Green
 		playAreaColumns[3] = playAreaColumns[2] + columnPadding; // Yellow
 		goal = window->getHeight() - 500.0f;
-
-		srand(time(NULL));
 	}
 
 	DemoGame::~DemoGame() {}
 
 	bool DemoGame::update(float deltaTime) {
 		m_totalTime += deltaTime;
-		
-		// MOUSE INPUT
-		posX = getWindow()->input->getMousePosX();
-		posY = getWindow()->input->getMousePosY();
-		clicked = getWindow()->input->getButton();
-		//std::cout << posX << " - " << posY << " - " << clicked << std::endl;
 
 		// KEYBOARD INPUT
 		// Close app with ESC
@@ -76,7 +63,7 @@ namespace engine
 
 		// Note spawner
 		if (spawnTimer < m_totalTime * 5) {
-			int id = getRandom(0, 4);
+			int id = getWindow()->functions->getRandomInt(0, 4);
 			Note* note = new Note;
 			note->id = id;
 			note->location = -100.0f;
@@ -136,8 +123,8 @@ namespace engine
 				graphics->drawRectangle(quadObject, (notesTextures[notes[index]->id]), quad, quadTexCoords, 6);
 
 				// Remove notes that are out of screen
-				if (notes[index]->location > (window->getHeight() + 200.0f)) {
-					combo = score1 = score10 = score100 = score1000 = 0;
+				if (notes[index]->location > (goal + treshold + 30.0f)) {
+					combo = 0;
 					it = notes.erase(it);
 				}
 

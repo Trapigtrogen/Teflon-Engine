@@ -810,6 +810,9 @@
     <ClInclude Include="..\..\include\glm\vector_relational.hpp">
       <Filter>Header Files\GLM</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\core\functionality.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\ogl\OGLGraphicsSystem.cpp">
@@ -844,6 +847,9 @@
     </ClCompile>
     <ClCompile Include="..\..\include\glm\detail\glm.cpp">
       <Filter>Header Files\GLM</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\functionality.cpp">
+      <Filter>Source Files\core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
