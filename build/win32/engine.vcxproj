@@ -326,11 +326,11 @@
     <ClInclude Include="..\..\include\glm\vector_relational.hpp" />
     <ClInclude Include="..\..\include\graphics\GraphicsApplication.h" />
     <ClInclude Include="..\..\include\graphics\GraphicsSystem.h" />
+    <ClInclude Include="..\..\include\graphics\stb_image.h" />
     <ClInclude Include="..\..\include\graphics\Window.h" />
     <ClInclude Include="..\..\include\OGL\OGL.h" />
     <ClInclude Include="..\..\include\OGL\OGLGraphicsSystem.h" />
     <ClInclude Include="..\..\include\win32\Win32Window.h" />
-    <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\include\glm\detail\glm.cpp" />

@@ -1,4 +1,6 @@
 build/win32/.vs/engine/v15/ipch/
 build/win32/.vs/engine/v16/ipch/
 build/win32/Debug/
+build/win32/Release/
 GraphicsTest/Debug/
+GraphicsTest/Release/
