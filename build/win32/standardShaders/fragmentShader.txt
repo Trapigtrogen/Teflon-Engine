@@ -1,0 +1,13 @@
+precision mediump float;
+uniform sampler2D texture;
+varying vec2 texCoord;
+void main(){
+	//gl_FragColor = texture2D(texture, texCoord);
+	vec4 color = texture2D(texture, texCoord);
+	if(color.w < 0.9){
+		discard;
+	}
+	else{
+		gl_FragColor = color;
+	}
+}

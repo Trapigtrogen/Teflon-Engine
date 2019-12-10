@@ -44,20 +44,20 @@ public:
 	InputManager();
 	~InputManager();
 
-	void setButton(int value);
-	void setMousePosX(int value);
-	void setMousePosY(int value);
-	void setKey(int index, int value);
+	void setButton(bool value);
+	void setMousePosX(float value);
+	void setMousePosY(float value);
+	void setKey(int index, bool value);
 
-	int getButton();
-	int getKey(int index);
-	int getMousePosX();
-	int getMousePosY();
+	bool getButton();
+	bool getKey(int index);
+	float getMousePosX();
+	float getMousePosY();
 
 private:
 	std::vector<int> buttons;
 
-	int posX = 0;
-	int posY = 0;
-	int isClicked = 0;
+	float posX = 0;
+	float posY = 0;
+	bool isClicked = 0;
 };

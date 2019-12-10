@@ -39,6 +39,32 @@ namespace engine
 
 	class OGLGraphicsSystem : public GraphicsSystem {
 	public:
+		// Default shaders
+		const char shaderFDefault[198] =
+			"precision mediump float;\n"
+			"uniform sampler2D texture;\n"
+			"varying vec2 texCoord;\n"
+			"void main() {\n"
+				"vec4 color = texture2D(texture, texCoord);\n"
+				"if (color.w < 0.9) {\n"
+					"discard;\n"
+				"}\n"
+				"else {\n"
+					"gl_FragColor = color;\n"
+				"}\n"
+			"}\n";
+
+		const char shaderVDefault[162] =
+			"attribute vec4 vPosition;\n"
+			"uniform mat4 MVP;\n"
+			"attribute vec2 vTexCoord;\n"
+			"varying vec2 texCoord;\n"
+			"void main() {\n"
+				"gl_Position = MVP * vPosition;\n"
+				"texCoord = vTexCoord;\n"
+			"}";
+
+
 		// Creates new OpenGL ES 2.0 Graphics System binded to given window.
 		OGLGraphicsSystem(Window* window);
 		virtual ~OGLGraphicsSystem();
@@ -58,6 +84,7 @@ namespace engine
 		virtual void swapBuffers();
 
 		virtual GLuint createShaderProgram(const std::string vertexShader, const std::string fragmentShader);
+		virtual GLuint createShaderProgram();
 		
 		void OGLGraphicsSystem::drawTriangles(GLuint shader, Texture2D* texture, float vertices[], float textureCoords[], int numVertices);
 		void OGLGraphicsSystem::drawRectangle(GLuint shader, Texture2D* texture, float vertices[], float textureCoords[], int numVertices);

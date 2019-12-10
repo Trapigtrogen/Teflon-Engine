@@ -14,14 +14,6 @@
 
 namespace engine
 {
-	class Shader {
-	public:
-		Shader() {}
-		virtual ~Shader() {}
-		virtual void useShader() = 0;
-		virtual GLuint getUniformLocation(const char* const uniformName) = 0;
-	};
-	
 	class Texture2D {
 	public:
 		Texture2D() {}
@@ -51,6 +43,8 @@ namespace engine
 		virtual void swapBuffers() = 0;
 
 		virtual GLuint createShaderProgram(const std::string vertexShader, const std::string fragmentShader) = 0;
+		virtual GLuint createShaderProgram() = 0;
+
 		virtual void drawTriangles(GLuint shader, Texture2D* texture, float vertices[], float textureCoords[], int numVertices) = 0;
 		virtual void drawRectangle(GLuint shader, Texture2D* texture, float vertices[], float textureCoords[], int numVertices) = 0;
 	};

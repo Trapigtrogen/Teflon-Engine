@@ -52,24 +52,20 @@ namespace engine
 		float goal = 0;
 		float treshold = 50;
 		float speed = 0;
-		float acceleration = 10; // smaller = faster
-		float minSpeed = 5;
-		float maxSpeed = 20;
+		float acceleration = 9; // smaller = faster
+		float minSpeed = 7;
+		float maxSpeed = 25;
 
-		int posX = 0;
-		int posY = 0;
-		int clicked = 0;
-
-		int keyPressedZ = 0;
-		int keyPressedX = 0;
-		int keyPressedComma = 0;
-		int keyPressedDot = 0;
+		bool keyPressed[4] = {0, 0, 0, 0};
+		bool keyReleased[4] = {true, true, true, true};
+		bool hasLost = false;
 
 		int i = 0;
 		float spawnTimer = 0;
 		float playAreaColumns[4];
 		OGLTexture2D* notesTextures[4];
 		OGLTexture2D* scoreTextures[10];
+		OGLTexture2D* losingScreen;
 
 		// Texture coordinates
 		GLfloat quadTexCoords[12] = {

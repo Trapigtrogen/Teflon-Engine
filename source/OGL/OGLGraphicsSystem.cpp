@@ -121,8 +121,7 @@ namespace engine
 		}
 
 		config = supportedConfigs[0];
-		for (; i < numConfigs; i++)
-		{
+		for (; i < numConfigs; i++) {
 			EGLint r, g, b, d;
 			EGLConfig& cfg = supportedConfigs[i];
 			if (eglGetConfigAttrib(m_eglDisplay, cfg, EGL_RED_SIZE, &r) &&
@@ -179,14 +178,28 @@ namespace engine
 		eglSwapBuffers(m_eglDisplay, m_eglSurface);
 	}
 
-	GLuint OGLGraphicsSystem::createShaderProgram(const std::string strVertexShader, const std::string strFragmentShader) {
-		GLuint vertexShader;
-		GLuint fragmentShader;
-
+	GLuint OGLGraphicsSystem::createShaderProgram(const std::string vertexShaderName, const std::string fragmentShaderName) {
 		programObject = glCreateProgram();
 
-		vertexShader = LoadShader(GL_VERTEX_SHADER, strVertexShader.c_str());
-		fragmentShader = LoadShader(GL_FRAGMENT_SHADER, strFragmentShader.c_str());
+		std::string strVertexShader = loadFile(vertexShaderName);
+		std::string strFragmentShader = loadFile(fragmentShaderName);
+
+		GLuint vertexShader = LoadShader(GL_VERTEX_SHADER, strVertexShader.c_str());
+		GLuint fragmentShader = LoadShader(GL_FRAGMENT_SHADER, strFragmentShader.c_str());
+
+		glAttachShader(programObject, vertexShader);
+		glAttachShader(programObject, fragmentShader);
+
+		glLinkProgram(programObject);
+
+		return programObject;
+	}
+	
+	GLuint OGLGraphicsSystem::createShaderProgram() { // If no shader files are passed default ones are used
+		programObject = glCreateProgram();
+
+		GLuint vertexShader = LoadShader(GL_VERTEX_SHADER, shaderVDefault);
+		GLuint fragmentShader = LoadShader(GL_FRAGMENT_SHADER, shaderFDefault);
 
 		glAttachShader(programObject, vertexShader);
 		glAttachShader(programObject, fragmentShader);

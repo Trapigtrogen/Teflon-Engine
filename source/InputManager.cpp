@@ -9,34 +9,34 @@ InputManager::InputManager() {
 InputManager::~InputManager() {}
 
 
-void InputManager::setButton(int value) {
+void InputManager::setButton(bool value) {
 	isClicked = value;
 }
 
-void InputManager::setKey(int index, int value) {
+void InputManager::setKey(int index, bool value) {
 	buttons[index] = value;
 }
 
-void InputManager::setMousePosX(int value) {
+void InputManager::setMousePosX(float value) {
 	posX = value;
 }
 
-void InputManager::setMousePosY(int value) {
+void InputManager::setMousePosY(float value) {
 	posY = value;
 }
 
-int InputManager::getButton() {
+bool InputManager::getButton() {
 	return isClicked;
 }
 
-int InputManager::getKey(int index) {
+bool InputManager::getKey(int index) {
 	return buttons[index];
 }
 
-int InputManager::getMousePosX() {
+float InputManager::getMousePosX() {
 	return posX;
 }
 
-int InputManager::getMousePosY() {
+float InputManager::getMousePosY() {
 	return posY;
 }
