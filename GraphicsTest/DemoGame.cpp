@@ -62,7 +62,7 @@ namespace engine
 		keyPressedDot = getWindow()->input->getKey(VK_OEM_PERIOD);
 
 		// Note spawner
-		if (spawnTimer < m_totalTime * 5) {
+		if (spawnTimer < m_totalTime * speed) {
 			int id = getWindow()->functions->getRandomInt(0, 4);
 			Note* note = new Note;
 			note->id = id;

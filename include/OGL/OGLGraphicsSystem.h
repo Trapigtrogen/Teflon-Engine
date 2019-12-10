@@ -23,18 +23,6 @@
 
 namespace engine
 {
-	class OGLShader : public Shader {
-	public:
-		OGLShader(const char* strVertexShader, const char* strFragmentShader, const std::vector<std::string>& attribLocations);
-		virtual ~OGLShader();
-
-		virtual void useShader();
-		virtual GLuint getUniformLocation(const char* const uniformName);
-
-	private:
-		GLuint m_programObject;
-	};
-	
 	class OGLTexture2D : public Texture2D, Object {
 	public:
 		OGLTexture2D(int width, int height, int bytesPerPixel, const GLubyte* pixels);

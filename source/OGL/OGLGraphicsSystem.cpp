@@ -45,76 +45,6 @@ namespace engine
 			return shader;
 		}
 	}
-	
-	OGLShader::OGLShader(const char* strVertexShader, const char* strFragmentShader, const std::vector<std::string>& attribLocations) : m_programObject(0){
-		GLuint vertexShader;
-		GLuint fragmentShader;		
-		GLint linked;
-
-		// Load the vertex/fragment shaders
-		vertexShader = LoadShader(GL_VERTEX_SHADER, strVertexShader);
-		fragmentShader = LoadShader(GL_FRAGMENT_SHADER, strFragmentShader);
-
-		// Create the program object
-		m_programObject = glCreateProgram();
-		if (m_programObject == 0)	return;
-
-		glAttachShader(m_programObject, vertexShader);
-		glAttachShader(m_programObject, fragmentShader);
-
-		// Bind attribute locatinos
-		for (size_t i = 0; i < attribLocations.size(); ++i) {
-			glBindAttribLocation(m_programObject, i, attribLocations[i].c_str());
-		}
-		// Link the program
-		glLinkProgram(m_programObject);
-
-		// Check the link status
-		glGetProgramiv(m_programObject, GL_LINK_STATUS, &linked);
-
-		glDeleteShader(vertexShader);
-		glDeleteShader(fragmentShader);
-
-		if (!linked)
-		{
-			GLint infoLen = 0;
-
-			glGetProgramiv(m_programObject, GL_INFO_LOG_LENGTH, &infoLen);
-
-			if (infoLen > 1)
-			{
-				char* infoLog = (char*)malloc(sizeof(char) * infoLen);
-
-				glGetProgramInfoLog(m_programObject, infoLen, NULL, infoLog);
-				LOGI("Error linking program:\n%s\n", infoLog);
-
-				free(infoLog);
-			}
-
-			glDeleteProgram(m_programObject);
-			m_programObject = 0;
-			return;
-		}
-	}
-
-	OGLShader::~OGLShader()	{
-		if (m_programObject != 0) {
-			glDeleteProgram(m_programObject);
-			m_programObject = 0;
-		}
-	}
-
-
-	void OGLShader::useShader() {
-		// Use the program object
-		if (m_programObject != 0) {
-			glUseProgram(m_programObject);
-		}
-	}
-
-	GLuint OGLShader::getUniformLocation(const char* const uniformName) {
-		return glGetUniformLocation(m_programObject, uniformName);
-	}
 
 	OGLTexture2D::OGLTexture2D(int width, int height, int bytesPerPixel, const GLubyte* pixels) : Object(), m_textureId(0) {
 		assert(bytesPerPixel == 3 || bytesPerPixel == 4);
@@ -323,8 +253,6 @@ namespace engine
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture->getTextureId());
-
-		//glUniform1i(shader->getUniformLocation("texture"), 0);
 
 		glDrawArrays(GL_TRIANGLES, 0, numVertices);
 	}
