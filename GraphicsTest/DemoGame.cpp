@@ -65,7 +65,7 @@ namespace engine
 		}
 
 		// Note spawner
-		if (spawnTimer < m_totalTime * 5 + (speed/5)) {
+		if (spawnTimer < m_totalTime * 5 + (speed/5) && !hasLost) {
 			int id = getWindow()->functions->getRandomInt(0, 4);
 			Note* note = new Note;
 			note->id = id;
@@ -133,9 +133,9 @@ namespace engine
 
 			// Remove notes that are out of screen
 			if (notes[index]->location > (goal + treshold + 30.0f)) {
-				combo = 0;
 				hasLost = true;
-				it = notes.erase(it);
+				notes.clear();
+				it = notes.begin();
 			}
 
 			// Remove notes when they are hit
@@ -159,7 +159,7 @@ namespace engine
 				keyReleased[3] = false;
 				it = notes.erase(it);
 			}
-			else {
+			else if (!hasLost) {
 				it++;
 			}
 		}
@@ -175,28 +175,28 @@ namespace engine
 		graphics->drawRectangle(quadObject, scoreTextures[score1], quad, quadTexCoords, 6);
 
 		// Goals
-		if (!keyPressed[0]) {
+		if (!keyPressed[0] && !hasLost) {
 			graphics->transform(quadObject, 0, playAreaColumns[0], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize + 20);
 		}
 		else {
 			graphics->transform(quadObject, 0, playAreaColumns[0], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize);
 		}
 		graphics->drawRectangle(quadObject, notesTextures[0], quad, quadTexCoords, 6);
-		if (!keyPressed[1]) {
+		if (!keyPressed[1] && !hasLost) {
 			graphics->transform(quadObject, 0, playAreaColumns[1], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize + 20);
 		}
 		else {
 			graphics->transform(quadObject, 0, playAreaColumns[1], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize);
 		}
 		graphics->drawRectangle(quadObject, notesTextures[1], quad, quadTexCoords, 6);
-		if (!keyPressed[2]) {
+		if (!keyPressed[2] && !hasLost) {
 			graphics->transform(quadObject, 0, playAreaColumns[2], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize + 20);
 		}
 		else {
 			graphics->transform(quadObject, 0, playAreaColumns[2], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize);
 		}
 		graphics->drawRectangle(quadObject, notesTextures[2], quad, quadTexCoords, 6);
-		if (!keyPressed[3]) {
+		if (!keyPressed[3] && !hasLost) {
 			graphics->transform(quadObject, 0, playAreaColumns[3], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize + 20);
 		}
 		else {
@@ -207,6 +207,13 @@ namespace engine
 		if (hasLost) {
 			graphics->transform(quadObject, 0, 300, 200, 0.0f, 0.0f, 0.0f, 1.0f, 100);
 			graphics->drawRectangle(quadObject, losingScreen, quad2, quadTexCoords, 6);
+			if (keyPressed[0] || keyPressed[1] || keyPressed[2] || keyPressed[3]) {
+				combo = 0;
+				hasLost = false;
+				spawnTimer = 0;
+				m_totalTime = 0;
+				it = notes.begin();
+			}
 		}
 
 
