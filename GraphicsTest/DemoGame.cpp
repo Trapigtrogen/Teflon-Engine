@@ -116,29 +116,29 @@ namespace engine
 				notes.resize(0);
 				it = notes.begin();
 			}
-
-			// Remove notes when they are hit
-			if (keyPressed[0] && notes[index]->id == 0 && notes[index]->location < goal + treshold && notes[index]->location > goal - treshold/2 && keyReleased[0] == true) {
-				combo++;
-				keyReleased[0] = false;
-				it = notes.erase(it);
+			else { // Otherwise continue to check if they were hit
+				if (keyPressed[0] && notes[index]->id == 0 && notes[index]->location < goal + treshold && notes[index]->location > goal - treshold / 2 && keyReleased[0] == true) {
+					combo++;
+					keyReleased[0] = false;
+					it = notes.erase(it);
+				}
+				if (keyPressed[1] && notes[index]->id == 1 && notes[index]->location < goal + treshold && notes[index]->location > goal - treshold / 2 && keyReleased[1] == true) {
+					combo++;
+					keyReleased[1] = false;
+					it = notes.erase(it);
+				}
+				if (keyPressed[2] && notes[index]->id == 2 && notes[index]->location < goal + treshold && notes[index]->location > goal - treshold / 2 && keyReleased[2] == true) {
+					combo++;
+					keyReleased[2] = false;
+					it = notes.erase(it);
+				}
+				if (keyPressed[3] && notes[index]->id == 3 && notes[index]->location < goal + treshold && notes[index]->location > goal - treshold / 2 && keyReleased[3] == true) {
+					combo++;
+					keyReleased[3] = false;
+					it = notes.erase(it);
+				}	
 			}
-			if (keyPressed[1] && notes[index]->id == 1 && notes[index]->location < goal + treshold && notes[index]->location > goal - treshold/2 && keyReleased[1] == true) {
-				combo++;
-				keyReleased[1] = false;
-				it = notes.erase(it);
-			}
-			if (keyPressed[2] && notes[index]->id == 2 && notes[index]->location < goal + treshold && notes[index]->location > goal - treshold/2 && keyReleased[2] == true) {
-				combo++;
-				keyReleased[2] = false;
-				it = notes.erase(it);
-			}
-			if (keyPressed[3] && notes[index]->id == 3 && notes[index]->location < goal + treshold && notes[index]->location > goal - treshold/2 && keyReleased[3] == true) {
-				combo++;
-				keyReleased[3] = false;
-				it = notes.erase(it);
-			}
-			else if (!hasLost) {
+			if (!hasLost) {
 				it++;
 			}
 		}
@@ -191,7 +191,6 @@ namespace engine
 				hasLost = false;
 				spawnTimer = 0;
 				m_totalTime = 0;
-				//it = notes.begin();
 			}
 		}
 
