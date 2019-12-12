@@ -47,6 +47,8 @@ namespace engine
 
 		virtual void drawTriangles(GLuint shader, Texture2D* texture, float vertices[], float textureCoords[], int numVertices) = 0;
 		virtual void drawRectangle(GLuint shader, Texture2D* texture, float vertices[], float textureCoords[], int numVertices) = 0;
+		virtual void drawSprite(GLuint shader, Texture2D* texture) = 0;
+		virtual void drawSprite(GLuint shader, Texture2D* texture, float vertices[]) = 0;
 	};
 
 }

@@ -88,7 +88,7 @@ namespace engine
 		// User friendly quad
 		GLfloat quad2[] = {
 			dx + 0.0f,  dy + size, depth,
-			dx + 0.0, dy + 0.0f, depth,
+			dx + 0.0f, dy + 0.0f, depth,
 			dx + size, dy + 0.0f, depth,
 			dx + size, dy + size, depth
 		};

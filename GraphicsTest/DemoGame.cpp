@@ -95,33 +95,11 @@ namespace engine
 	}
 
 	void DemoGame::render(Window* window, GraphicsSystem* graphics) {
-		// FPS CAP
 		(void)window;
 		float wave = fabsf(sinf(2.0f * m_totalTime));
 
 		// Clear screen with pulsating colour
 		graphics->clearScreen(0, 0, 0, true);
-
-		// Quad information
-		float size = 1.0f;
-		float dx = -0.5f; //starting corner X
-		float dy = -0.5f; //starting corner Y
-		float depth = 0.0f; // Z-index
-
-		// Quad vertice coordinates
-		GLfloat quad[] = {
-			dx + 0.0f,  dy + size, depth,
-			dx + 0.0, dy + 0.0f, depth,
-			dx + size, dy + 0.0f, depth,
-			dx + size, dy + size, depth
-		};
-			
-		GLfloat quad2[] = {
-			dx + 0.0f,  dy + size, depth,
-			dx + 0.0, dy + 0.0f, depth,
-			dx + (size*2), dy + 0.0f, depth,
-			dx + (size*2), dy + size, depth
-		};
 			
 		// Note remover
 		it = notes.begin();
@@ -129,12 +107,13 @@ namespace engine
 			int index = std::distance(notes.begin(), it);
 			notes[index]->location += speed;
 			graphics->transform(quadObject, 0, playAreaColumns[notes[index]->id], notes[index]->location, 0.0f, 0.0f, 0.0f, 1.0f, noteSize);
-			graphics->drawRectangle(quadObject, (notesTextures[notes[index]->id]), quad, quadTexCoords, 6);
+			graphics->drawSprite(quadObject, notesTextures[notes[index]->id]);
 
 			// Remove notes that are out of screen
 			if (notes[index]->location > (goal + treshold + 30.0f)) {
 				hasLost = true;
 				notes.clear();
+				notes.resize(0);
 				it = notes.begin();
 			}
 
@@ -166,13 +145,13 @@ namespace engine
 
 		// Score
 		graphics->transform(quadObject, 0, scoreStartX, scoreStartY, -1.0f, 0.0f, 0.0f, 1.0f, scoreSize);
-		graphics->drawRectangle(quadObject, scoreTextures[score1000], quad, quadTexCoords, 6);
+		graphics->drawSprite(quadObject, scoreTextures[score1000]);
 		graphics->transform(quadObject, 0, scoreStartX + scorePadding, scoreStartY, -1.0f, 0.0f, 0.0f, 1.0f, scoreSize);
-		graphics->drawRectangle(quadObject, scoreTextures[score100], quad, quadTexCoords, 6);
+		graphics->drawSprite(quadObject, scoreTextures[score100]);
 		graphics->transform(quadObject, 0, scoreStartX + scorePadding * 2, scoreStartY, -1.0f, 0.0f, 0.0f, 1.0f, scoreSize);
-		graphics->drawRectangle(quadObject, scoreTextures[score10], quad, quadTexCoords, 6);
+		graphics->drawSprite(quadObject, scoreTextures[score10]);
 		graphics->transform(quadObject, 0, scoreStartX + scorePadding * 3, scoreStartY, -1.0f, 0.0f, 0.0f, 1.0f, scoreSize);
-		graphics->drawRectangle(quadObject, scoreTextures[score1], quad, quadTexCoords, 6);
+		graphics->drawSprite(quadObject, scoreTextures[score1]);
 
 		// Goals
 		if (!keyPressed[0] && !hasLost) {
@@ -181,45 +160,45 @@ namespace engine
 		else {
 			graphics->transform(quadObject, 0, playAreaColumns[0], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize);
 		}
-		graphics->drawRectangle(quadObject, notesTextures[0], quad, quadTexCoords, 6);
+		graphics->drawSprite(quadObject, notesTextures[0]);
 		if (!keyPressed[1] && !hasLost) {
 			graphics->transform(quadObject, 0, playAreaColumns[1], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize + 20);
 		}
 		else {
 			graphics->transform(quadObject, 0, playAreaColumns[1], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize);
 		}
-		graphics->drawRectangle(quadObject, notesTextures[1], quad, quadTexCoords, 6);
+		graphics->drawSprite(quadObject, notesTextures[1]);
 		if (!keyPressed[2] && !hasLost) {
 			graphics->transform(quadObject, 0, playAreaColumns[2], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize + 20);
 		}
 		else {
 			graphics->transform(quadObject, 0, playAreaColumns[2], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize);
 		}
-		graphics->drawRectangle(quadObject, notesTextures[2], quad, quadTexCoords, 6);
+		graphics->drawSprite(quadObject, notesTextures[2]);
 		if (!keyPressed[3] && !hasLost) {
 			graphics->transform(quadObject, 0, playAreaColumns[3], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize + 20);
 		}
 		else {
 			graphics->transform(quadObject, 0, playAreaColumns[3], goal, 0.0f, 0.0f, 0.0f, 1.0f, noteSize);
 		}
-		graphics->drawRectangle(quadObject, notesTextures[3], quad, quadTexCoords, 6);
+		graphics->drawSprite(quadObject, notesTextures[3]);
 
 		if (hasLost) {
 			graphics->transform(quadObject, 0, 300, 200, 0.0f, 0.0f, 0.0f, 1.0f, 100);
-			graphics->drawRectangle(quadObject, losingScreen, quad2, quadTexCoords, 6);
+			graphics->drawSprite(quadObject, losingScreen, losingText);
 			if (keyPressed[0] || keyPressed[1] || keyPressed[2] || keyPressed[3]) {
 				combo = 0;
 				hasLost = false;
 				spawnTimer = 0;
 				m_totalTime = 0;
-				it = notes.begin();
+				//it = notes.begin();
 			}
 		}
 
 
 		// DAFUQ BUG FIX: For some reason on my laptop hte program ignores the last draw call.
 		//                This is to fix that untill I figure out why it happens in the first place.
-		graphics->drawRectangle(quadObject, notesTextures[3], quad, quadTexCoords, 6);
+		graphics->drawSprite(quadObject, notesTextures[3], losingText);
 
 		// Swap buffers
 		graphics->swapBuffers();

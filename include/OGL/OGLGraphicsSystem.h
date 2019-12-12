@@ -39,33 +39,7 @@ namespace engine
 
 	class OGLGraphicsSystem : public GraphicsSystem {
 	public:
-		// Default shaders
-		const char shaderFDefault[198] =
-			"precision mediump float;\n"
-			"uniform sampler2D texture;\n"
-			"varying vec2 texCoord;\n"
-			"void main() {\n"
-				"vec4 color = texture2D(texture, texCoord);\n"
-				"if (color.w < 0.9) {\n"
-					"discard;\n"
-				"}\n"
-				"else {\n"
-					"gl_FragColor = color;\n"
-				"}\n"
-			"}\n";
-
-		const char shaderVDefault[162] =
-			"attribute vec4 vPosition;\n"
-			"uniform mat4 MVP;\n"
-			"attribute vec2 vTexCoord;\n"
-			"varying vec2 texCoord;\n"
-			"void main() {\n"
-				"gl_Position = MVP * vPosition;\n"
-				"texCoord = vTexCoord;\n"
-			"}";
-
-
-		// Creates new OpenGL ES 2.0 Graphics System binded to given window.
+		// Creates new OpenGL ES Graphics System binded to given window.
 		OGLGraphicsSystem(Window* window);
 		virtual ~OGLGraphicsSystem();
 
@@ -86,13 +60,64 @@ namespace engine
 		virtual GLuint createShaderProgram(const std::string vertexShader, const std::string fragmentShader);
 		virtual GLuint createShaderProgram();
 		
-		void OGLGraphicsSystem::drawTriangles(GLuint shader, Texture2D* texture, float vertices[], float textureCoords[], int numVertices);
-		void OGLGraphicsSystem::drawRectangle(GLuint shader, Texture2D* texture, float vertices[], float textureCoords[], int numVertices);
+		virtual void drawTriangles(GLuint shader, Texture2D* texture, float vertices[], float textureCoords[], int numVertices);
+		virtual void drawRectangle(GLuint shader, Texture2D* texture, float vertices[], float textureCoords[], int numVertices);
+		virtual void drawSprite(GLuint shader, Texture2D* texture);
+		virtual void drawSprite(GLuint shader, Texture2D* texture, float vertices[12]);
 
 	private:
 		engine::Ref<Window> m_window;	// Window where graphics is binded
 		bool m_active;					// True-flag if all is okay.
 		GLuint programObject;
+
+		// Default shaders
+		const char shaderFDefault[198] =
+			"precision mediump float;\n"
+			"uniform sampler2D texture;\n"
+			"varying vec2 texCoord;\n"
+			"void main() {\n"
+				"vec4 color = texture2D(texture, texCoord);\n"
+				"if (color.w < 0.9) {\n"
+					"discard;\n"
+					"}\n"
+					"else {\n"
+					"gl_FragColor = color;\n"
+				"}\n"
+			"}\n";
+
+		const char shaderVDefault[162] =
+			"attribute vec4 vPosition;\n"
+			"uniform mat4 MVP;\n"
+			"attribute vec2 vTexCoord;\n"
+			"varying vec2 texCoord;\n"
+			"void main() {\n"
+				"gl_Position = MVP * vPosition;\n"
+				"texCoord = vTexCoord;\n"
+			"}";
+
+		// Default texture coordinates for sprites
+		GLfloat spriteTexCoords[12] = {
+			0,1,
+			0,0,
+			1,0,
+			1,1,
+			1,0,
+			0,1
+		};
+
+		// Default sprite information
+		float size = 1.0f;
+		float dx = -0.5f; //starting corner X
+		float dy = -0.5f; //starting corner Y
+		float depth = 0.0f; // Z-index
+
+		// Default sprite vertice coordinates
+		GLfloat spriteVertices[12] = {
+			dx + 0.0f,  dy + size, depth,
+			dx + 0.0f, dy + 0.0f, depth,
+			dx + size, dy + 0.0f, depth,
+			dx + size, dy + size, depth
+		};
 
 		// Embedded OpenGLES member variables
 		EGLDisplay m_eglDisplay; // Display object

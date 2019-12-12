@@ -294,8 +294,14 @@ namespace engine
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture->getTextureId());
 
-		//glUniform1i(shader->getUniformLocation("texture"), 0);
-
 		glDrawArrays(GL_TRIANGLES, 0, numVertices);
+	}
+
+	void OGLGraphicsSystem::drawSprite(GLuint shader, Texture2D* texture) {
+		drawRectangle(shader, texture, spriteVertices, spriteTexCoords, 6);
+	}
+
+	void OGLGraphicsSystem::drawSprite(GLuint shader, Texture2D* texture, float vertices[12]) {
+		drawRectangle(shader, texture, vertices, spriteTexCoords, 6);
 	}
 }

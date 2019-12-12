@@ -52,9 +52,9 @@ namespace engine
 		float goal = 0;
 		float treshold = 50;
 		float speed = 0;
-		float acceleration = 9; // smaller = faster
-		float minSpeed = 7;
-		float maxSpeed = 25;
+		float acceleration = 20; // smaller = faster
+		float minSpeed = 1;
+		float maxSpeed = 3;
 
 		bool keyPressed[4] = {0, 0, 0, 0};
 		bool keyReleased[4] = {true, true, true, true};
@@ -67,14 +67,11 @@ namespace engine
 		OGLTexture2D* scoreTextures[10];
 		OGLTexture2D* losingScreen;
 
-		// Texture coordinates
-		GLfloat quadTexCoords[12] = {
-			0,1,
-			0,0,
-			1,0,
-			1,1,
-			1,0,
-			0,1
+		GLfloat losingText[12] = {
+			0.0f,  1.0f, 0.0f,
+			0.0f, 0.0f, 0.0f,
+			2.0f, 0.0f, 0.0f,
+			2.0f, 1.0f, 0.0f
 		};
 
 		GLuint quadObject;
