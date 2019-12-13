@@ -9,6 +9,7 @@
 
 #include <graphics/GraphicsSystem.h>
 #include <core/Ref.h>
+#include <core/Functionality.h>
 #include <EGL/egl.h>
 #include <OGL/OGL.h>
 #include <vector> // std::vector
@@ -44,10 +45,6 @@ namespace engine
 		virtual ~OGLGraphicsSystem();
 
 		virtual void clearScreen(float red, float green, float blue, bool setViewport);
-
-		// Load shaders from file
-		virtual std::string loadFile(const std::string fileName);
-
 		
 		// Load textures from file
 		virtual GLubyte* loadImage(const char* fileName, int &width, int &height, int &bits);
@@ -69,6 +66,7 @@ namespace engine
 		engine::Ref<Window> m_window;	// Window where graphics is binded
 		bool m_active;					// True-flag if all is okay.
 		GLuint programObject;
+		Functionality* functions;
 
 		// Default shaders
 		const char shaderFDefault[198] =

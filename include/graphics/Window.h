@@ -10,7 +10,7 @@
 #include <core/Object.h>
 #include <EGL/eglplatform.h> // TODO: Make to cross platform
 #include <core/InputManager.h>
-#include <core/functionality.h>
+#include <core/Functionality.h>
 #include <time.h>
 
 namespace engine

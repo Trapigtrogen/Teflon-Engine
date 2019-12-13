@@ -30,10 +30,16 @@ namespace engine
 		/// Renders application.
 		virtual void render(Window* window, GraphicsSystem* graphics);
 
+		int loadScore(Window* window);
+
 	private:
 		HWND m_windowHandle;
 		float m_totalTime = 0;
 		std::vector<Note*>::iterator it;
+
+		std::string highscoreStr = "0";
+		int highscoreInt = 0;
+		std::string comboStr = "0";
 
 		std::vector<Note*> notes;
 		float noteSize = 70.0f;
@@ -44,10 +50,14 @@ namespace engine
 		float scoreStartY = 50;
 		float scorePadding = 30;
 		int combo = 0;
-		int score1000 = 0;
-		int score100 = 0;
-		int score10 = 0;
 		int score1 = 0;
+		int score10 = 0;
+		int score100 = 0;
+		int score1000 = 0;
+		int hScore1 = 0;
+		int hScore10 = 0;
+		int hScore100 = 0;
+		int hScore1000 = 0;
 
 		float goal = 0;
 		float treshold = 50;
@@ -56,7 +66,7 @@ namespace engine
 		float minSpeed = 1;
 		float maxSpeed = 3;
 
-		bool keyPressed[4] = {0, 0, 0, 0};
+		bool keyPressed[5] = {0, 0, 0, 0, 0};
 		bool keyReleased[4] = {true, true, true, true};
 		bool hasLost = false;
 

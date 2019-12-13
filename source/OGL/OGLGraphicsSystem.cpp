@@ -181,8 +181,8 @@ namespace engine
 	GLuint OGLGraphicsSystem::createShaderProgram(const std::string vertexShaderName, const std::string fragmentShaderName) {
 		programObject = glCreateProgram();
 
-		std::string strVertexShader = loadFile(vertexShaderName);
-		std::string strFragmentShader = loadFile(fragmentShaderName);
+		std::string strVertexShader = functions->loadFile(vertexShaderName);
+		std::string strFragmentShader = functions->loadFile(fragmentShaderName);
 
 		GLuint vertexShader = LoadShader(GL_VERTEX_SHADER, strVertexShader.c_str());
 		GLuint fragmentShader = LoadShader(GL_FRAGMENT_SHADER, strFragmentShader.c_str());
@@ -208,16 +208,6 @@ namespace engine
 
 		return programObject;
 	}
-	
-	std::string OGLGraphicsSystem::loadFile(const std::string fileName) {
-		std::ifstream file;
-		file.open(fileName);
-		std::string buffer;
-		std::getline(file, buffer, (char)file.eof());
-		file.close();
-		return buffer;
-	}
-
 
 	GLubyte* OGLGraphicsSystem::loadImage(const char* fileName, int &width, int &height, int &bits) {
 		GLubyte* texture = stbi_load(fileName, &width, &height, &bits, 0);

@@ -29,9 +29,6 @@ namespace engine
 		// Clears the screen using given color
 		virtual void clearScreen(float red, float green, float blue, bool setViewport) = 0;
 
-		// Load shaders from file
-		virtual std::string loadFile(const std::string fileName) = 0;
-
 		// Load texture from file
 		virtual GLubyte* loadImage(const char* fileName, int &width, int &height, int &bits) = 0;
 

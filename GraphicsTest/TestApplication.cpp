@@ -14,8 +14,8 @@ namespace engine
 
 	TestApplication::TestApplication(Window* window, GraphicsSystem* graphics) : GraphicsApplication(window, graphics) , m_totalTime(0.0f), m_windowHandle(window->getNativeWindow()) {
 		// Load shader files
-		std::string vShader = graphics->loadFile("shaders/vertexShader.txt");
-		std::string fShader = graphics->loadFile("shaders/fragmentShader.txt");
+		std::string vShader = window->functions->loadFile("shaders/vertexShader.txt");
+		std::string fShader = window->functions->loadFile("shaders/fragmentShader.txt");
 		
 		// Create Shader object
 		quadObject = graphics->createShaderProgram(vShader, fShader);

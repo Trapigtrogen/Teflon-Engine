@@ -11,12 +11,22 @@
 
 namespace engine
 {
+	int DemoGame::loadScore(Window* window) {
+		highscoreStr = window->functions->loadFile("highscore.txt");
+		if (highscoreStr == "") {
+			highscoreStr = "0";
+		}
+		highscoreInt = std::stoi(highscoreStr);
+		return highscoreInt;
+	}
 
 	DemoGame::DemoGame(Window* window, GraphicsSystem* graphics) : GraphicsApplication(window, graphics), m_totalTime(0.0f), m_windowHandle(window->getNativeWindow()) {
+		loadScore(window);
+
 		// Create Shader object
 		quadObject = graphics->createShaderProgram();
 
-		// CREATE TEXTURE FROM IMAGE FILE
+		// CREATE TEXTURES FROM IMAGE FILES
 		int width, height, bits;
 		notesTextures[0] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/noteBlue.png", width, height, bits));
 		notesTextures[1] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/noteRed.png", width, height, bits));
@@ -58,6 +68,7 @@ namespace engine
 		keyPressed[1] = getWindow()->input->getKey(WM_KEY_X);
 		keyPressed[2] = getWindow()->input->getKey(VK_OEM_COMMA);
 		keyPressed[3] = getWindow()->input->getKey(VK_OEM_PERIOD);
+		keyPressed[4] = getWindow()->input->getKey(WM_KEY_R);
 		for (int i = 0; i < 4; i++) {
 			if (keyPressed[i] == false) {
 				keyReleased[i] = true;
@@ -74,7 +85,7 @@ namespace engine
 			spawnTimer++;
 		}
 
-		// Note speed. values set in header
+		// Note speed. Values set in header
 		if (m_totalTime / acceleration < minSpeed) { // Minimum speed
 			speed = minSpeed;
 		}
@@ -90,15 +101,19 @@ namespace engine
 		score10 = combo / 10 % 10;
 		score100 = combo / 100 % 10;
 		score1000 = combo / 1000 % 10;
+		// Highscores
+		hScore1 = highscoreInt % 10;
+		hScore10 = highscoreInt / 10 % 10;
+		hScore100 = highscoreInt / 100 % 10;
+		hScore1000 = highscoreInt / 1000 % 10;
 
 		return true;
 	}
 
 	void DemoGame::render(Window* window, GraphicsSystem* graphics) {
 		(void)window;
-		float wave = fabsf(sinf(2.0f * m_totalTime));
 
-		// Clear screen with pulsating colour
+		// Clear screen
 		graphics->clearScreen(0, 0, 0, true);
 			
 		// Note remover
@@ -109,12 +124,17 @@ namespace engine
 			graphics->transform(quadObject, 0, playAreaColumns[notes[index]->id], notes[index]->location, 0.0f, 0.0f, 0.0f, 1.0f, noteSize);
 			graphics->drawSprite(quadObject, notesTextures[notes[index]->id]);
 
-			// Remove notes that are out of screen
+			// Remove notes that are out of screen and end the game
 			if (notes[index]->location > (goal + treshold + 30.0f)) {
 				hasLost = true;
 				notes.clear();
 				notes.resize(0);
 				it = notes.begin();
+				comboStr = std::to_string(combo);
+				if (highscoreInt < combo) {
+					comboStr = std::to_string(combo);
+					window->functions->writeFile("highscore.txt", comboStr);
+				}
 			}
 			else { // Otherwise continue to check if they were hit
 				if (keyPressed[0] && notes[index]->id == 0 && notes[index]->location < goal + treshold && notes[index]->location > goal - treshold / 2 && keyReleased[0] == true) {
@@ -144,14 +164,23 @@ namespace engine
 		}
 
 		// Score
-		graphics->transform(quadObject, 0, scoreStartX, scoreStartY, -1.0f, 0.0f, 0.0f, 1.0f, scoreSize);
+		graphics->transform(quadObject, 0, scoreStartX, scoreStartY * 2, -1.0f, 0.0f, 0.0f, 1.0f, scoreSize);
 		graphics->drawSprite(quadObject, scoreTextures[score1000]);
-		graphics->transform(quadObject, 0, scoreStartX + scorePadding, scoreStartY, -1.0f, 0.0f, 0.0f, 1.0f, scoreSize);
+		graphics->transform(quadObject, 0, scoreStartX + scorePadding, scoreStartY * 2, -1.0f, 0.0f, 0.0f, 1.0f, scoreSize);
 		graphics->drawSprite(quadObject, scoreTextures[score100]);
-		graphics->transform(quadObject, 0, scoreStartX + scorePadding * 2, scoreStartY, -1.0f, 0.0f, 0.0f, 1.0f, scoreSize);
+		graphics->transform(quadObject, 0, scoreStartX + scorePadding * 2, scoreStartY * 2, -1.0f, 0.0f, 0.0f, 1.0f, scoreSize);
 		graphics->drawSprite(quadObject, scoreTextures[score10]);
-		graphics->transform(quadObject, 0, scoreStartX + scorePadding * 3, scoreStartY, -1.0f, 0.0f, 0.0f, 1.0f, scoreSize);
+		graphics->transform(quadObject, 0, scoreStartX + scorePadding * 3, scoreStartY * 2, -1.0f, 0.0f, 0.0f, 1.0f, scoreSize);
 		graphics->drawSprite(quadObject, scoreTextures[score1]);
+		// Highscores
+		graphics->transform(quadObject, 0, scoreStartX, scoreStartY, -1.0f, 0.0f, 0.0f, 1.0f, scoreSize);
+		graphics->drawSprite(quadObject, scoreTextures[hScore1000]);
+		graphics->transform(quadObject, 0, scoreStartX + scorePadding, scoreStartY, -1.0f, 0.0f, 0.0f, 1.0f, scoreSize);
+		graphics->drawSprite(quadObject, scoreTextures[hScore100]);
+		graphics->transform(quadObject, 0, scoreStartX + scorePadding * 2, scoreStartY, -1.0f, 0.0f, 0.0f, 1.0f, scoreSize);
+		graphics->drawSprite(quadObject, scoreTextures[hScore10]);
+		graphics->transform(quadObject, 0, scoreStartX + scorePadding * 3, scoreStartY, -1.0f, 0.0f, 0.0f, 1.0f, scoreSize);
+		graphics->drawSprite(quadObject, scoreTextures[hScore1]);
 
 		// Goals
 		if (!keyPressed[0] && !hasLost) {
@@ -186,11 +215,12 @@ namespace engine
 		if (hasLost) {
 			graphics->transform(quadObject, 0, 300, 200, 0.0f, 0.0f, 0.0f, 1.0f, 100);
 			graphics->drawSprite(quadObject, losingScreen, losingText);
-			if (keyPressed[0] || keyPressed[1] || keyPressed[2] || keyPressed[3]) {
+			if (keyPressed[4]) { // Restart the game when R key is pressed
 				combo = 0;
 				hasLost = false;
 				spawnTimer = 0;
 				m_totalTime = 0;
+				loadScore(window);
 			}
 		}
 
