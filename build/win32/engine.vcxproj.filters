@@ -46,6 +46,9 @@
     <Filter Include="Header Files\GLM">
       <UniqueIdentifier>{de0a9472-448d-4f00-bd41-7936177c276e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ECS">
+      <UniqueIdentifier>{8d7c5906-4d27-44c4-8d3e-574d7930653c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\win32\Win32Window.h">
@@ -812,6 +815,15 @@
     </ClInclude>
     <ClInclude Include="..\..\include\graphics\stb_image.h">
       <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ECS\Allocators.h">
+      <Filter>Header Files\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ECS\Engine.h">
+      <Filter>Header Files\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ECS\Core.h">
+      <Filter>Header Files\ECS</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

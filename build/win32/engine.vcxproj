@@ -81,6 +81,9 @@
     <ClInclude Include="..\..\include\core\InputManager.h" />
     <ClInclude Include="..\..\include\core\Object.h" />
     <ClInclude Include="..\..\include\core\Ref.h" />
+    <ClInclude Include="..\..\include\ECS\Allocators.h" />
+    <ClInclude Include="..\..\include\ECS\Core.h" />
+    <ClInclude Include="..\..\include\ECS\Engine.h" />
     <ClInclude Include="..\..\include\glm\common.hpp" />
     <ClInclude Include="..\..\include\glm\detail\compute_common.hpp" />
     <ClInclude Include="..\..\include\glm\detail\compute_vector_relational.hpp" />
