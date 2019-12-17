@@ -234,7 +234,7 @@ namespace engine
 		m_model = glm::scale(m_model, glm::vec3(scale, scale, scale));
 
 		m_view = glm::mat4(1.0f);
-		m_projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f);
+		m_projection = glm::ortho(0.0f, 1800.0f, 1000.0f, 0.0f);
 
 		// Set MVP
 		glm::mat4 mvp = m_projection * glm::inverse(m_view) * m_model;

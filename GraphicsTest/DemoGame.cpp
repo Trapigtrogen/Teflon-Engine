@@ -44,13 +44,13 @@ namespace engine
 		scoreTextures[8] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/score8.png", width, height, bits));
 		scoreTextures[9] = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/score9.png", width, height, bits));
 
-		losingScreen = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/notePink.png", width, height, bits));
+		losingScreen = new OGLTexture2D(width, height, bits, graphics->loadImage("textures/LosingText.png", width, height, bits));
 
-		playAreaColumns[0] = window->getWidth() / 7;			 // Blue
+		playAreaColumns[0] = window->getWidth() / 3;			 // Blue
 		playAreaColumns[1] = playAreaColumns[0] + columnPadding; // Red
 		playAreaColumns[2] = playAreaColumns[1] + columnPadding; // Green
 		playAreaColumns[3] = playAreaColumns[2] + columnPadding; // Yellow
-		goal = window->getHeight() - 500.0f;
+		goal = window->getHeight() - 200.0f;
 	}
 
 	DemoGame::~DemoGame() {}
@@ -68,32 +68,23 @@ namespace engine
 		keyPressed[1] = getWindow()->input->getKey(WM_KEY_X);
 		keyPressed[2] = getWindow()->input->getKey(VK_OEM_COMMA);
 		keyPressed[3] = getWindow()->input->getKey(VK_OEM_PERIOD);
-		keyPressed[4] = getWindow()->input->getKey(WM_KEY_R);
-		for (int i = 0; i < 4; i++) {
+		keyPressed[4] = getWindow()->input->getKey(VK_OEM_PLUS);
+		keyPressed[5] = getWindow()->input->getKey(VK_OEM_MINUS);
+		keyPressed[6] = getWindow()->input->getKey(WM_KEY_R);
+		for (int i = 0; i < 6; i++) {
 			if (keyPressed[i] == false) {
 				keyReleased[i] = true;
 			}
 		}
 
 		// Note spawner
-		if (spawnTimer < m_totalTime * 5 + (speed/5) && !hasLost) {
+		if (spawnTimer < ((m_totalTime*5) - (speed*2)) && !hasLost) {
 			int id = getWindow()->functions->getRandomInt(0, 4);
 			Note* note = new Note;
 			note->id = id;
 			note->location = -100.0f;
 			notes.push_back(note);
 			spawnTimer++;
-		}
-
-		// Note speed. Values set in header
-		if (m_totalTime / acceleration < minSpeed) { // Minimum speed
-			speed = minSpeed;
-		}
-		else if (m_totalTime / acceleration > maxSpeed) { // Maximum speed
-			speed = maxSpeed;
-		}
-		else {
-			speed = m_totalTime / acceleration;
 		}
 
 		// Score calculating
@@ -120,7 +111,7 @@ namespace engine
 		it = notes.begin();
 		while(it != notes.end()){
 			int index = std::distance(notes.begin(), it);
-			notes[index]->location += speed;
+			notes[index]->location += speed*3/2;
 			graphics->transform(quadObject, 0, playAreaColumns[notes[index]->id], notes[index]->location, 0.0f, 0.0f, 0.0f, 1.0f, noteSize);
 			graphics->drawSprite(quadObject, notesTextures[notes[index]->id]);
 
@@ -172,6 +163,7 @@ namespace engine
 		graphics->drawSprite(quadObject, scoreTextures[score10]);
 		graphics->transform(quadObject, 0, scoreStartX + scorePadding * 3, scoreStartY * 2, -1.0f, 0.0f, 0.0f, 1.0f, scoreSize);
 		graphics->drawSprite(quadObject, scoreTextures[score1]);
+
 		// Highscores
 		graphics->transform(quadObject, 0, scoreStartX, scoreStartY, -1.0f, 0.0f, 0.0f, 1.0f, scoreSize);
 		graphics->drawSprite(quadObject, scoreTextures[hScore1000]);
@@ -213,21 +205,39 @@ namespace engine
 		graphics->drawSprite(quadObject, notesTextures[3]);
 
 		if (hasLost) {
-			graphics->transform(quadObject, 0, 300, 200, 0.0f, 0.0f, 0.0f, 1.0f, 100);
+			// Losing Text
+			graphics->transform(quadObject, 0, window->getWidth() / 2 - 300, 200, 0.0f, 0.0f, 0.0f, 1.0f, 300);
 			graphics->drawSprite(quadObject, losingScreen, losingText);
-			if (keyPressed[4]) { // Restart the game when R key is pressed
+			// Note speed indicator
+			graphics->transform(quadObject, 0, window->getWidth() - 150, scoreStartY, 0.0f, 0.0f, 0.0f, 1.0f, scoreSize);
+			graphics->drawSprite(quadObject, scoreTextures[speed / 10 % 10]);
+			graphics->transform(quadObject, 0, window->getWidth() - 100, scoreStartY, 0.0f, 0.0f, 0.0f, 1.0f, scoreSize);
+			graphics->drawSprite(quadObject, scoreTextures[speed % 10]);
+			if (keyPressed[6]) { // Restart the game when R key is pressed
 				combo = 0;
 				hasLost = false;
 				spawnTimer = 0;
 				m_totalTime = 0;
 				loadScore(window);
 			}
+			if (keyPressed[4] && keyReleased[4]) {
+				if (speed < 20) {
+					speed++;
+				}
+				keyReleased[4] = false;
+			}
+			if (keyPressed[5] && keyReleased[5]) {
+				if (speed > 1) {
+					speed--;
+				}
+				keyReleased[5] = false;
+			}
 		}
 
 
 		// DAFUQ BUG FIX: For some reason on my laptop hte program ignores the last draw call.
-		//                This is to fix that untill I figure out why it happens in the first place.
-		graphics->drawSprite(quadObject, notesTextures[3], losingText);
+		//                This is to fix that until I figure out why it happens in the first place.
+		//graphics->drawSprite(quadObject, notesTextures[3], losingText);
 
 		// Swap buffers
 		graphics->swapBuffers();

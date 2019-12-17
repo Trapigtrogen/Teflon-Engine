@@ -12,6 +12,7 @@
 #include <OGL/OGL.h>
 #include <OGL/OGLGraphicsSystem.h>
 #include <Note.h>
+#include <time.h>
 
 namespace engine
 {
@@ -42,13 +43,14 @@ namespace engine
 		std::string comboStr = "0";
 
 		std::vector<Note*> notes;
-		float noteSize = 70.0f;
-		float columnPadding = 80;
+		float noteSize = 110.0f;
+		float columnPadding = 120;
 
-		float scoreSize = 30.0f;
+		float scoreSize = 50.0f;
 		float scoreStartX = 50;
 		float scoreStartY = 50;
-		float scorePadding = 30;
+		float scorePadding = 50;
+
 		int combo = 0;
 		int score1 = 0;
 		int score10 = 0;
@@ -60,18 +62,15 @@ namespace engine
 		int hScore1000 = 0;
 
 		float goal = 0;
-		float treshold = 50;
-		float speed = 0;
-		float acceleration = 20; // smaller = faster
-		float minSpeed = 1;
-		float maxSpeed = 3;
+		float treshold = 70;
+		int speed = 10; // Default speed
 
-		bool keyPressed[5] = {0, 0, 0, 0, 0};
-		bool keyReleased[4] = {true, true, true, true};
+		bool keyPressed[7] = {false, false, false, false, false, false, false};
+		bool keyReleased[6] = {true, true, true, true, true, true};
 		bool hasLost = false;
 
 		int i = 0;
-		float spawnTimer = 0;
+		int spawnTimer = 0;
 		float playAreaColumns[4];
 		OGLTexture2D* notesTextures[4];
 		OGLTexture2D* scoreTextures[10];
