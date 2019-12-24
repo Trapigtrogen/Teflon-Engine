@@ -34,6 +34,7 @@ namespace engine
 		int loadScore(Window* window);
 
 	private:
+		float timing;
 		HWND m_windowHandle;
 		float m_totalTime = 0;
 		std::vector<Note*>::iterator it;
