@@ -56,6 +56,7 @@ namespace engine
 	DemoGame::~DemoGame() {}
 
 	bool DemoGame::update(float deltaTime) {
+		timing = deltaTime;
 		m_totalTime += deltaTime;
 
 		// KEYBOARD INPUT
@@ -78,7 +79,7 @@ namespace engine
 		}
 
 		// Note spawner
-		if (spawnTimer < ((m_totalTime*5) - (speed*2)) && !hasLost) {
+		if (spawnTimer < m_totalTime*speed/2 && !hasLost) {
 			int id = getWindow()->functions->getRandomInt(0, 4);
 			Note* note = new Note;
 			note->id = id;
@@ -111,7 +112,7 @@ namespace engine
 		it = notes.begin();
 		while(it != notes.end()){
 			int index = std::distance(notes.begin(), it);
-			notes[index]->location += speed*3/2;
+			notes[index]->location += 50*speed*timing;
 			graphics->transform(quadObject, 0, playAreaColumns[notes[index]->id], notes[index]->location, 0.0f, 0.0f, 0.0f, 1.0f, noteSize);
 			graphics->drawSprite(quadObject, notesTextures[notes[index]->id]);
 
@@ -237,7 +238,7 @@ namespace engine
 
 		// DAFUQ BUG FIX: For some reason on my laptop hte program ignores the last draw call.
 		//                This is to fix that until I figure out why it happens in the first place.
-		//graphics->drawSprite(quadObject, notesTextures[3], losingText);
+		graphics->drawSprite(quadObject, notesTextures[3], losingText);
 
 		// Swap buffers
 		graphics->swapBuffers();
